@@ -28,4 +28,6 @@ class TelegramBot():
         application.add_handler(CommandHandler("start", self.__cmd.start))
         application.add_handler(CommandHandler("help", self.__cmd.help_command))
 
+        application.add_handler(CommandHandler("create", self.__cmd.create))
+
         application.run_polling(allowed_updates=Update.ALL_TYPES)

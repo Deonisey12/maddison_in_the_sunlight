@@ -18,4 +18,15 @@ class BotCommands():
 
     async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_text(update.message.text)
-        
+
+    async def create(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        gen = Generator()
+        request = ' '.join(update.message.text.split(' ')[1:])
+        request = request.split('#')
+        print(request)
+        try:
+            entity = gen.Create(*request)
+            entity.SaveToJson()
+            await update.message.reply_text("Создано")
+        except Exception as ex:
+            await update.message.reply_text(f"не удалось ({ex.__str__})")
