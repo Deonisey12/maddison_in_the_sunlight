@@ -26,7 +26,7 @@ class TelegramBot():
         application = Application.builder().token(self.__token).build()
 
         application.add_handler(CommandHandler("start", self.__cmd.start))
-        application.add_handler(CommandHandler("help", self.__cmd.help_command))
+        application.add_handler(CommandHandler("test", self.__cmd.echo))
 
         application.add_handler(CommandHandler("create", self.__cmd.create))
 
