@@ -1,4 +1,4 @@
-from generators.generator import Generator
+from entities.database import Database
 
 import telegram as tg
 import telegram.ext as tgx
@@ -6,10 +6,13 @@ import telegram.ext as tgx
 from base_form import BaseForm
 
 
+
 class BotCommands():
 
     _base_form = BaseForm()
-    _gen = Generator()
+
+    def __init__(self, database: Database):
+        self._database = database
 
     async def start(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         user = update.effective_user
@@ -37,9 +40,11 @@ class BotCommands():
 
     async def test_form(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         text, rpm, prcm = self._base_form.GenerateLayout(
-            self._gen.Create("Scene", "Test main", "Test main. Test mainmain!"),
-            [self._gen.Create("Scene", "Test 1", "Test 1. Test 1!"),
-            self._gen.Create("Scene", "Test 2", "Test 2. Test 2!")]
+            self._database.GetEntityById("Scene", 0),
+            [
+                self._database.GetEntityById("Scene", 1),
+                self._database.GetEntityById("Scene", 2)
+            ]
         )
         
         await update.message.reply_text(
