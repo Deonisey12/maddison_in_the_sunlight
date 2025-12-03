@@ -1,5 +1,5 @@
 import sys
-sys.path.append("src/entities")
+sys.path.append("src/generators")
 
 from typing import Hashable
 from list import Entities

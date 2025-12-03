@@ -1,8 +1,5 @@
 import json, os
 
-from generators.generator import Generator
-from generators.item import Item
-
 from bot.bot import *
 
 if __name__ == "__main__":

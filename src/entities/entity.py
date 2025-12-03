@@ -23,6 +23,19 @@ class Entity():
         self._id = id
 
     @property
+    def name(self):
+        return self._name
+    @property
+    def disc(self):
+        return self._disc
+    @property
+    def tags(self):
+        return self._tags
+    @property
+    def id(self):
+        return self._id
+
+    @property
     def __filename(self):
             fname = '_'.join((str(self._name)).lower().split(' '))
             return os.path.join(os.getcwd(), self._path, 
