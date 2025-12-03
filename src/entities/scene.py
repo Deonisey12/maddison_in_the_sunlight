@@ -14,3 +14,11 @@ class Scene(Entity):
         self._path = "local/scenes"
         self._isGlobal = isGlobal
         self._img_path = img
+
+    @property
+    def isGlobal(self):
+        return self._isGlobal
+
+    @property
+    def img_path(self):
+        return self._img_path
