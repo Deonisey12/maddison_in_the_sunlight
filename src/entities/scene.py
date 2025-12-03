@@ -9,9 +9,10 @@ class Scene(Entity):
         "img_path"
     ]
 
+    Path = "local/scenes"
+
     def __init__(self, name, disc="empty", tags="", isGlobal=True, img=None) -> None:
         super().__init__(name, disc, tags)
-        self._path = "local/scenes"
         self._isGlobal = isGlobal
         self._img_path = img
 

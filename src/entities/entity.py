@@ -5,6 +5,7 @@ import random
 
 class Entity():
     base_prm = [
+            "id",
             "name",
             "disc",
             "tags"
@@ -12,16 +13,18 @@ class Entity():
 
     additional_prm = []
 
-    def __init__(self, name, disc="empty", tags=[]) -> None:
+    Path = "local/entity"
+    
+    def __init__(self, id=0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
         self._name = name
         self._id = 0
         self._disc = disc
-        self._path = "local/entity"
         self._tags = tags
+        self._path = self.Path
 
-    def SetId(self, id):
-        self._id = id
-
+    @property
+    def id(self):
+        return self._id
     @property
     def name(self):
         return self._name
@@ -31,18 +34,15 @@ class Entity():
     @property
     def tags(self):
         return self._tags
-    @property
-    def id(self):
-        return self._id
 
     @property
     def __filename(self):
             fname = '_'.join((str(self._name)).lower().split(' '))
             return os.path.join(os.getcwd(), self._path, 
-                        f"{fname}_id{self._id}")
+                        f"id{self._id}_{fname}")
 
     def __repr__(self) -> str:
-        res = f"<{self.__class__.__name__}__{self._name}_id{self._id}: \"{self._disc}\""
+        res = f"<{self.__class__.__name__}__id{self._id}_{self._name}: \"{self._disc}\""
         for ap in self.additional_prm:            
             try:
                 res += f", {ap}:{getattr(self, f"_{self.__class__.__name__}__{ap}")}"
@@ -53,18 +53,6 @@ class Entity():
         return res
 
     def SaveToJson(self):
-        if self._id == 0:
-            self._id = random.randint(100000, 999999)
-            
-            while True:
-                if not os.path.exists(self.__filename):
-                    break
-
-                if self._id < 999999:
-                    self._id += 1
-                else:
-                    self._id = random.randint(100000, 999999)
-
         os.makedirs(os.path.join(os.getcwd(), self._path), exist_ok=True)
 
         obj_js = json.dumps(self, default=lambda o: o.__dict__, ensure_ascii=False)
@@ -84,7 +72,6 @@ class Entity():
                 args.append(json_dct[f"_{ap}"])
 
             res = cls(*args)
-            res.SetId(json_dct["_id"])
 
             return res
         except:
