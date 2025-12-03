@@ -11,20 +11,19 @@ class BotCommands():
     _base_form = BaseForm()
     _gen = Generator()
 
-    async def start(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE) -> None:
+    async def start(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         user = update.effective_user
         await update.message.reply_html(
-            rf"Hi {user.mention_html()}!",
-            # reply_markup=ForceReply(selective=True),
+            rf"Hi {user.name}!"
         )
 
-    async def help_command(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE) -> None:
+    async def help_command(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Help!")
 
-    async def echo(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE) -> None:
+    async def echo(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(update.message.text)
 
-    async def create(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE) -> None:
+    async def create(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         
         request = ' '.join(update.message.text.split(' ')[1:])
         request = request.split('#')

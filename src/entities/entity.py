@@ -15,9 +15,9 @@ class Entity():
 
     Path = "local/entity"
     
-    def __init__(self, id=0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
+    def __init__(self, id: int=0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
         self._name = name
-        self._id = 0
+        self._id = id
         self._disc = disc
         self._tags = tags
         self._path = self.Path
@@ -36,10 +36,13 @@ class Entity():
         return self._tags
 
     @property
-    def __filename(self):
-            fname = '_'.join((str(self._name)).lower().split(' '))
-            return os.path.join(os.getcwd(), self._path, 
-                        f"id{self._id}_{fname}")
+    def shotfilename(self):
+        fname = '_'.join((str(self._name)).lower().split(' '))
+        return os.path.join(self._path, f"id{self._id}_{fname}")
+
+    @property
+    def filename(self):
+            return os.path.join(os.getcwd(), self.shotfilename)
 
     def __repr__(self) -> str:
         res = f"<{self.__class__.__name__}__id{self._id}_{self._name}: \"{self._disc}\""
@@ -52,12 +55,15 @@ class Entity():
         res += ">"
         return res
 
+    def IncId(self):
+        self._id += 1
+
     def SaveToJson(self):
         os.makedirs(os.path.join(os.getcwd(), self._path), exist_ok=True)
 
         obj_js = json.dumps(self, default=lambda o: o.__dict__, ensure_ascii=False)
 
-        file = open(self.__filename, "w")
+        file = open(self.filename, "w")
         file.write(obj_js)
         file.close()
 
