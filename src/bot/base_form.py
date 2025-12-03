@@ -29,11 +29,9 @@ class BaseForm():
         self.Clear()
         
         keyboard = []
-        row = []
         for v in vars:
             kbe = tg.InlineKeyboardButton(str(v.name), callback_data=str(v.id))
-            row.append(kbe)
-        keyboard.append(row)
+            keyboard.append([kbe])
         self._reply_markup = tg.InlineKeyboardMarkup(keyboard)
 
         header = f"*{self.escape_markdown_v2(str(main_scene.name))}*\n"

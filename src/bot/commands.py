@@ -42,8 +42,8 @@ class BotCommands():
         text, rpm, prcm = self._base_form.GenerateLayout(
             self._database.GetEntityById("Scene", 0),
             [
-                self._database.GetEntityById("Scene", 1),
-                self._database.GetEntityById("Scene", 2)
+                self._database.GetEntityById("Event", 1),
+                self._database.GetEntityById("Event", 2),
             ]
         )
         

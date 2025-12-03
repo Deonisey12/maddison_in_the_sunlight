@@ -17,7 +17,11 @@ class Database():
     def Load(self):
         for ename, etype in Entities.items():
             path = etype.Path
-            files = os.listdir(os.path.join(os.getcwd(), path))
+            
+            try:
+                files = os.listdir(os.path.join(os.getcwd(), path))
+            except:
+                files = []
 
             fdict = {}
             for f in files:

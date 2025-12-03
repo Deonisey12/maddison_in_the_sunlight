@@ -12,8 +12,10 @@ if __name__ == "__main__":
     # print(database.GetEntityById('Scene', 5))
 
     # database.CreateEntity("Scene", 0, "Test Form", "Test form description")
-    # database.CreateEntity("Scene", 1, "Button 1", "Test Button 1. Test Button 1!")
-    # database.CreateEntity("Scene", 2, "Button 2", "Test Button 2. Test Button 2!")
+    # database.CreateEntity("Event", 1, "Button 1", "Test Button 1. Test Button 1!")
+    # database.CreateEntity("Event", 2, "Button 2", "Test Button 2. Test Button 2!")
+
+    # database.CreateEntity("Scene", 0, "Create entity", "")
 
     vtm_bot = TelegramBot(database, os.path.join(os.getcwd(),".token"))
     vtm_bot.Start()
