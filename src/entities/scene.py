@@ -11,8 +11,8 @@ class Scene(Entity):
 
     Path = "local/scenes"
 
-    def __init__(self, name, disc="empty", tags="", isGlobal=True, img=None) -> None:
-        super().__init__(name, disc, tags)
+    def __init__(self,id: int=0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[], isGlobal=True, img=None) -> None:
+        super().__init__(id, name, disc, tags)
         self._isGlobal = isGlobal
         self._img_path = img
 

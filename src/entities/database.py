@@ -2,7 +2,7 @@ import sys
 sys.path.append("src/generators")
 sys.path.append("src/entities")
 
-import os
+import os, json
 
 from typing import Hashable, Callable
 from typing_extensions import Dict
@@ -40,10 +40,18 @@ class Database():
         self._db[class_name][entity.id] = entity.shotfilename
         print(self._db)
 
-    def GetEntityById(self, id: int = None):
+    def GetEntityById(self, class_name: str, id: int = None):
         if id == None:
             return None
 
+        filepath = self._db[class_name].get(id)
+        if filepath == None:
+            return None
+        
+        with open(filepath, "r") as f:
+            data = f.read()
+            res = json.loads(data, object_hook=Entities[class_name].JsonDecoder)
 
+        return res
 
         

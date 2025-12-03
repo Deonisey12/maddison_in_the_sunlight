@@ -16,8 +16,8 @@ class Entity():
     Path = "local/entity"
     
     def __init__(self, id: int=0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
-        self._name = name
         self._id = id
+        self._name = name
         self._disc = disc
         self._tags = tags
         self._path = self.Path
@@ -80,5 +80,6 @@ class Entity():
             res = cls(*args)
 
             return res
-        except:
+        except Exception as ex:
+            print(ex)
             return None
