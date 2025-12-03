@@ -1,5 +1,5 @@
 import sys
-sys.path.append("src/generators")
+sys.path.append("src/entities")
 
 from entity import Entity
 

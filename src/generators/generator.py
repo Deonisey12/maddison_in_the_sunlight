@@ -1,8 +1,7 @@
 import sys
-sys.path.append("src/generators")
+sys.path.append("src/entities")
 
 from typing import Hashable
-from entity import Entity
 from list import Entities
 
 class ClassNotFoundError(ValueError):

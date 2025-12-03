@@ -1,7 +1,7 @@
 import sys
-sys.path.append("src/generators")
+sys.path.append("src/entities")
 
-from generators import entity, item, scene
+from entities import entity, item, scene
 from typing import Hashable, Callable
 
 
