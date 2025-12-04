@@ -1,6 +1,6 @@
 MARKDOWN_V2 = "MarkdownV2"
 
-class State():
+class CreateState():
     ACTIVE = "active"
     MESSAGES_TO_DELETE = "messages_to_delete"
     TYPE = "type"

@@ -2,7 +2,7 @@ from .bot import TelegramBot
 from .cmd_handler import CmdHandler
 from .callback import CallbackHandler
 from .base_form import BaseForm, Layout
-from .cmd_dictionary import State, Actions, UserData, MARKDOWN_V2
+from .cmd_dictionary import CreateState, Actions, UserData, MARKDOWN_V2
 
 __all__ = [
     'TelegramBot',
@@ -10,7 +10,7 @@ __all__ = [
     'CallbackHandler',
     'BaseForm',
     'Layout',
-    'State',
+    'CreateState',
     'Actions',
     'UserData',
     'MARKDOWN_V2',
