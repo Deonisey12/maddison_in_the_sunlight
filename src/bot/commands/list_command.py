@@ -8,7 +8,7 @@ import telegram as tg
 import telegram.ext as tgx
 
 from base_form import BaseForm
-from cmd_dictionary import UserData, Actions
+from cmd_dictionary import ListState, UserData, Actions
 from .base_command import BaseCommand
 
 
@@ -31,7 +31,13 @@ class ListCommand(BaseCommand):
             action=Actions.LIST
         )
         
-        sent_message = await update.message.reply_text(
+        context.user_data[UserData.LIST_STATE] = {
+            ListState.ACTIVE: True,
+            ListState.TYPE: None,
+            ListState.ENTITY: None
+        }
+        
+        await update.message.reply_text(
             layout.text,
             reply_markup=layout.reply_markup,
             parse_mode=layout.parce_mode

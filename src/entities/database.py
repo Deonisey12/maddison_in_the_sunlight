@@ -31,6 +31,8 @@ class Database():
 
             self._db[ename] = fdict
 
+    def db(self, class_name: str):
+        return self._db[class_name]
 
     def CreateEntity(self, class_name: Hashable, *args, **kwargs):
         entity = self._gen.Create(class_name, *args, **kwargs)
