@@ -1,0 +1,82 @@
+import sys
+sys.path.append("src/bot")
+
+from entities.database import Database
+import telegram as tg
+import telegram.ext as tgx
+
+from base_form import BaseForm
+from cmd_dictionary import UserData, State, MARKDOWN_V2
+
+
+class MessageCommand:
+    def __init__(self, database: Database):
+        self._database = database
+        self._base_form = BaseForm()
+
+    async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
+        state = context.user_data.get(UserData.CREATE_STATE)
+        if not state or not state.get(State.ACTIVE):
+            return
+
+        text = update.message.text.strip()
+        chat_id = update.message.chat_id
+        user_message_id = update.message.message_id
+        state[State.MESSAGES_TO_DELETE].append(user_message_id)
+
+        if text.lower() == "cancel":
+            await self._cleanup_messages(context.bot, chat_id, state.get(State.MESSAGES_TO_DELETE, []))
+            state[State.ACTIVE] = False
+            state[State.TEXTS] = []
+            state[State.IDS] = []
+            await update.message.reply_text("Canceled")
+            return
+
+        if text.lower() == "eof":
+            await self._finish_entity_creation(update, context, state, chat_id)
+            return
+
+        state[State.TEXTS].append(text)
+        if len(state[State.IDS]) == 0:
+            await self._finish_entity_creation(update, context, state, chat_id)
+            return
+
+        answer = f"*{state[State.IDS].pop(0)}*".upper()
+        next_message = await update.message.reply_text(f"{answer}", parse_mode=MARKDOWN_V2)
+        state[State.MESSAGES_TO_DELETE].append(next_message.message_id)
+
+    async def _finish_entity_creation(self, update, context, state, chat_id):
+        e = self._database.CreateEntity(state[State.TYPE], 0, *state[State.TEXTS])
+        await self._cleanup_messages(context.bot, chat_id, state.get(State.MESSAGES_TO_DELETE, []))
+
+        all_params = e.base_prm + e.additional_prm
+        class_name = type(e).__name__
+
+        info_lines = ["*CREATED ENTITY*"]
+        escaped_class_name = BaseForm.escape_markdown_v2(class_name)
+        info_lines.append(f"_CLASS:_ {escaped_class_name}")
+
+        for param in all_params:
+            value = getattr(e, param, None) or getattr(e, f"_{param}", "N/A")
+
+            if isinstance(value, list):
+                value = ", ".join(str(v) for v in value) if value else "[]"
+            
+            escaped_value = BaseForm.escape_markdown_v2(str(value))
+            escaped_param = BaseForm.escape_markdown_v2(param.upper())
+            info_lines.append(f"_{escaped_param}:_ {escaped_value}")
+
+        await update.message.reply_text("\n".join(info_lines), parse_mode=MARKDOWN_V2)
+        
+        state[State.ACTIVE] = False
+        state[State.TEXTS] = []
+        state[State.IDS] = []
+        state[State.MESSAGES_TO_DELETE] = []
+
+    async def _cleanup_messages(self, bot, chat_id, message_ids):
+        for msg_id in message_ids:
+            try:
+                await bot.delete_message(chat_id=chat_id, message_id=msg_id)
+            except Exception:
+                pass
+

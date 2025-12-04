@@ -33,6 +33,7 @@ class TelegramBot():
         self._app.add_handler(CommandHandler("test", self.__cmd.echo))
         self._app.add_handler(CommandHandler("create", self.__cmd.create))
         self._app.add_handler(CommandHandler("form", self.__cmd.test_form))
+        self._app.add_handler(CommandHandler("list", self.__cmd.list))
 
     def addCallbackHandlers(self):
         self._app.add_handler(CallbackQueryHandler(self.__cmd.button_callback))
