@@ -4,11 +4,8 @@ sys.path.append("src/bot")
 import telegram as tg
 import telegram.ext as tgx
 
-from .base_callback import BaseCallback
 
-
-class ListCallback(BaseCallback):
+class BaseCallback:
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE, data: str):
-        query = update.callback_query
-        pass
+        raise NotImplementedError("Subclasses must implement execute method")
 

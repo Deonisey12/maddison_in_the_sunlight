@@ -9,9 +9,10 @@ import telegram.ext as tgx
 
 from base_form import BaseForm
 from cmd_dictionary import UserData, Actions
+from .base_command import BaseCommand
 
 
-class ListCommand:
+class ListCommand(BaseCommand):
     def __init__(self, database: Database):
         self._database = database
         self._base_form = BaseForm()

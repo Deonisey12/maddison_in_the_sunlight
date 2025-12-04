@@ -4,10 +4,8 @@ sys.path.append("src/bot")
 import telegram as tg
 import telegram.ext as tgx
 
-from .base_command import BaseCommand
 
-
-class HelpCommand(BaseCommand):
+class BaseCommand:
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-        await update.message.reply_text("Help!")
+        raise NotImplementedError("Subclasses must implement execute method")
 

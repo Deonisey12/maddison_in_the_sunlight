@@ -1,10 +1,12 @@
-from .create_callback import handle_create_callback
-from .form_callback import handle_form_callback
-from .list_callback import handle_list_callback
+from .base_callback import BaseCallback
+from .create_callback import CreateCallback
+from .form_callback import FormCallback
+from .list_callback import ListCallback
 
 __all__ = [
-    'handle_create_callback',
-    'handle_form_callback',
-    'handle_list_callback',
+    'BaseCallback',
+    'CreateCallback',
+    'FormCallback',
+    'ListCallback',
 ]
 
