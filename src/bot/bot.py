@@ -9,7 +9,7 @@ from telegram.ext import *
 from functools import partial
 
 
-from commands import BotCommands
+from cmd_handler import CmdHandler
 
 
 class TelegramBot():
@@ -18,7 +18,7 @@ class TelegramBot():
         with open(token_path, "r") as f:
             self.__token = f.read()
             
-        self.__cmd = BotCommands(database)
+        self.__cmd = CmdHandler(database)
 
         logging.basicConfig(
             format="%(asctime)s-%(name)s-%(levelname)s-%(message)s", level=logging.INFO

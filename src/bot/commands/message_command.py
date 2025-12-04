@@ -41,7 +41,9 @@ class MessageCommand:
             await self._finish_entity_creation(update, context, state, chat_id)
             return
 
-        answer = f"*{state[State.IDS].pop(0)}*".upper()
+        id_value = str(state[State.IDS].pop(0)).upper()
+        escaped_id = BaseForm.escape_markdown_v2(id_value)
+        answer = f"*{escaped_id}*"
         next_message = await update.message.reply_text(f"{answer}", parse_mode=MARKDOWN_V2)
         state[State.MESSAGES_TO_DELETE].append(next_message.message_id)
 

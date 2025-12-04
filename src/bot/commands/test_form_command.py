@@ -31,5 +31,5 @@ class TestFormCommand:
         
         if UserData.FORM_ACTIONS not in context.user_data:
             context.user_data[UserData.FORM_ACTIONS] = {}
-        context.user_data[UserData.FORM_ACTIONS][sent_message.message_id] = Actions.FORM
+        context.user_data[UserData.FORM_ACTIONS][sent_message.message_id] = Actions.TEST_FORM
 

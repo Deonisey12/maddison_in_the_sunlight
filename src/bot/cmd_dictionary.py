@@ -9,7 +9,7 @@ class State():
 
 class Actions():
     CREATE = "create"
-    FORM = "form"
+    TEST_FORM = "test_form"
 
 class UserData():
     FORM_ACTIONS = "form_actions"
