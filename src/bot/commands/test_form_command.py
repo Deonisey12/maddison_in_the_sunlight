@@ -21,7 +21,8 @@ class TestFormCommand(BaseCommand):
             [
                 self._database.GetEntityById("Event", 0),
                 self._database.GetEntityById("Event", 1),
-            ]
+            ],
+            action=Actions.TEST_FORM
         )
         
         sent_message = await update.message.reply_text(
@@ -29,8 +30,4 @@ class TestFormCommand(BaseCommand):
             reply_markup=layout.reply_markup,
             parse_mode=layout.parce_mode
         )
-        
-        if UserData.FORM_ACTIONS not in context.user_data:
-            context.user_data[UserData.FORM_ACTIONS] = {}
-        context.user_data[UserData.FORM_ACTIONS][sent_message.message_id] = Actions.TEST_FORM
 

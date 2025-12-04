@@ -32,14 +32,18 @@ class BaseForm():
         escape_chars = r'_*[]()~`>#+-=|{}.!'
         return ''.join(['\\' + char if char in escape_chars else char for char in text])
 
-    def GenerateLayout(self, main_scene: Scene, vars: Scene = []):
+    def GenerateLayout(self, main_scene: Scene, vars: Scene = [], action: str = None):
         if len(vars) < 1:
             raise ValueError
         self.Clear()
         
         keyboard = []
         for v in vars:
-            kbe = tg.InlineKeyboardButton(str(v.name), callback_data=str(v.id))
+            if action:
+                callback_data = f"{action}:{v.id}"
+            else:
+                callback_data = str(v.id)
+            kbe = tg.InlineKeyboardButton(str(v.name), callback_data=callback_data)
             keyboard.append([kbe])
         self._reply_markup = tg.InlineKeyboardMarkup(keyboard)
 

@@ -27,7 +27,8 @@ class ListCommand(BaseCommand):
 
         layout = self._base_form.GenerateLayout(
             self._gen.Create("Scene", 0, "List Entity", "Выберите тип сущности"),
-            entities
+            entities,
+            action=Actions.LIST
         )
         
         sent_message = await update.message.reply_text(
@@ -35,8 +36,4 @@ class ListCommand(BaseCommand):
             reply_markup=layout.reply_markup,
             parse_mode=layout.parce_mode
         )
-        
-        if UserData.FORM_ACTIONS not in context.user_data:
-            context.user_data[UserData.FORM_ACTIONS] = {}
-        context.user_data[UserData.FORM_ACTIONS][sent_message.message_id] = Actions.LIST
 

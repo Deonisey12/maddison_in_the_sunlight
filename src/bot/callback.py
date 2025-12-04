@@ -14,23 +14,26 @@ class CallbackHandler:
         self._database = database
         self._create_callback = CreateCallback()
         self._form_callback = FormCallback(database)
-        self._list_callback = ListCallback()
+        self._list_callback = ListCallback(database)
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
         await query.answer()
 
-        message_id = query.message.message_id
-        form_actions = context.user_data.get(UserData.FORM_ACTIONS, {})
-        action = form_actions.get(message_id, Actions.CREATE)
         callback_data = query.data
+        
+        if ":" in callback_data:
+            action, data = callback_data.split(":", 1)
+        else:
+            action = Actions.CREATE
+            data = callback_data
 
         if action == Actions.CREATE:
-            await self._create_callback.execute(update, context, callback_data)
+            await self._create_callback.execute(update, context, data)
         elif action == Actions.TEST_FORM:
-            await self._form_callback.execute(update, context, callback_data)
+            await self._form_callback.execute(update, context, data)
         elif action == Actions.LIST:
-            await self._list_callback.execute(update, context, callback_data)
+            await self._list_callback.execute(update, context, data)
         else:
             await query.edit_message_text(text=f"Неизвестное действие: {action}")
 
