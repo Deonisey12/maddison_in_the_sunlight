@@ -15,8 +15,6 @@ class BotCommands():
     _base_form = BaseForm()
     _gen = Generator()
 
-    _flag = False
-
     def __init__(self, database: Database):
         self._database = database
 
@@ -69,35 +67,58 @@ class BotCommands():
     async def button_callback(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
         await query.answer()
-        
-        self._flag = True
-        self._type = list(Entities.keys())[int(query.data)]
 
-        await query.edit_message_text(text=f"Wait EOF")
+        type_key = list(Entities.keys())[int(query.data)]
+        etype = Entities[type_key]
 
-    texts = []
+        ids = list(etype.base_prm + etype.additional_prm)
+
+        state = {
+            "active": True,
+            "type": type_key,
+            "ids": ids,
+            "texts": [],
+        }
+        context.user_data["create_state"] = state
+
+        await query.edit_message_text(text=f"Enter text for {type_key}")
+
+        if state["ids"]:
+            state["ids"].pop(0)  # Убираем id
+        if state["ids"]:
+            await query.message.reply_text(f"{state['ids'].pop(0)}")
+
     async def message(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-        if not self._flag:
+        state = context.user_data.get("create_state")
+        if not state or not state.get("active"):
             return
-        
-        text = update.message.text
 
-        if text.lower() == "eof":
-            e = self._database.CreateEntity(self._type, 0, *self.texts)
-            await update.message.reply_html(
-                rf"""
-                <b>id{e.id}</b> {e.name}
-                {e.disc}
-                """
-            )
-            self._flag = False
-            self.texts = []
-            return
-        
+        text = update.message.text.strip()
+
         if text.lower() == "cancel":
-            self._flag = False
-            self.texts = []
+            state["active"] = False
+            state["texts"] = []
+            state["ids"] = []
             await update.message.reply_text("Canceled")
             return
 
-        self.texts.append(text)
+        if text.lower() == "eof":
+            e = self._database.CreateEntity(state["type"], 0, *state["texts"])
+            await update.message.reply_text(f"Entity created: {e}")
+            state["active"] = False
+            state["texts"] = []
+            state["ids"] = []
+            return
+
+        state["texts"].append(text)
+
+        if len(state["ids"]) == 0:
+            e = self._database.CreateEntity(state["type"], 0, *state["texts"])
+            await update.message.reply_text(f"Entity created: {e}")
+            state["active"] = False
+            state["texts"] = []
+            state["ids"] = []
+            return
+
+        answer = f"{state['ids'].pop(0)}"
+        await update.message.reply_text(f"{answer}")
