@@ -22,11 +22,13 @@ class CallbackHandler:
 
         callback_data = query.data
         
+        if not callback_data or not context:
+            return
+        
         if ":" in callback_data:
             action, data = callback_data.split(":", 1)
         else:
-            action = Actions.CREATE
-            data = callback_data
+            return
 
         if action == Actions.CREATE:
             await self._create_callback.execute(update, context, data)
