@@ -58,4 +58,22 @@ class Database():
 
         return res
 
+    def DeleteEntityById(self, class_name: str, id: int = None):
+        if id == None:
+            return False
+
+        filepath = self._db[class_name].get(id)
+        if filepath == None:
+            return False
+
+        full_path = os.path.join(os.getcwd(), filepath)
+        
+        try:
+            if os.path.exists(full_path):
+                os.remove(full_path)
+            del self._db[class_name][id]
+            return True
+        except Exception:
+            return False
+
         
