@@ -6,7 +6,7 @@ import telegram as tg
 import telegram.ext as tgx
 
 from cmd_dictionary import UserData, Actions
-from callbacks import handle_create_callback, handle_form_callback
+from callbacks import handle_create_callback, handle_form_callback, handle_list_callback
 
 
 class CallbackHandler:
@@ -26,6 +26,8 @@ class CallbackHandler:
             await handle_create_callback(update, context, callback_data)
         elif action == Actions.TEST_FORM:
             await handle_form_callback(self._database, update, context, callback_data)
+        elif action == Actions.LIST:
+            await handle_list_callback(update, context, callback_data)
         else:
             await query.edit_message_text(text=f"Неизвестное действие: {action}")
 

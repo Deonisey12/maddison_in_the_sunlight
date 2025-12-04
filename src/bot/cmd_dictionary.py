@@ -10,6 +10,7 @@ class State():
 class Actions():
     CREATE = "create"
     TEST_FORM = "test_form"
+    LIST = "list"
 
 class UserData():
     FORM_ACTIONS = "form_actions"

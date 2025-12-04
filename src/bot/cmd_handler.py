@@ -26,7 +26,7 @@ class CmdHandler:
         self._create_command = CreateCommand(database)
         self._test_form_command = TestFormCommand(database)
         self._callback_handler = CallbackHandler(database)
-        self._list_command = ListCommand()
+        self._list_command = ListCommand(database)
         self._message_command = MessageCommand(database)
 
     async def start(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
