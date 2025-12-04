@@ -1,9 +1,12 @@
 **/.vscode
+**/.cursor_docs
 **/venv
 
 **/__pycache__
 
 **/local
+
+.cursorrules
 
 .token
 output.log

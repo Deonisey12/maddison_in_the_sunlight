@@ -40,4 +40,7 @@ class TelegramBot():
     def Start(self):
         self.addCmdHandlers()
         self.addCallbackHandlers()
+
+        self._app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, self.__cmd.message))
+
         self._app.run_polling(allowed_updates=Update.ALL_TYPES)

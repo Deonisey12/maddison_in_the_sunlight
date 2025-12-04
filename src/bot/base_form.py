@@ -7,6 +7,15 @@ import telegram as tg
 import telegram.ext as tgx
 
 
+class Layout():
+
+    def __init__(self, text, reply_markup, parce_mode, img = None) -> None:
+        self.text = text
+        self.reply_markup = reply_markup
+        self.parce_mode = parce_mode
+        self.img = None
+
+
 class BaseForm():
     _parce_mode = "MarkdownV2"
 
@@ -39,7 +48,7 @@ class BaseForm():
 
         self._text = header + body
 
-        return self._text, self._reply_markup, self._parce_mode
+        return Layout(self._text, self._reply_markup, self._parce_mode)
 
 
 

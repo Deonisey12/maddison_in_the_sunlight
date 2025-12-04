@@ -42,7 +42,7 @@ class Database():
         
         entity.SaveToJson()
         self._db[class_name][entity.id] = entity.shotfilename
-        print(self._db)
+        return entity
 
     def GetEntityById(self, class_name: str, id: int = None):
         if id == None:
