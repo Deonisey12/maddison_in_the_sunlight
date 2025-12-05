@@ -1,4 +1,5 @@
 import sys
+import types
 sys.path.append("src/bot")
 
 import logging
@@ -19,15 +20,13 @@ class Commands():
     LIST = "list"
 
     DESCRIPTIONS = {
-        START: "начать работу",
-        TEST: "echo",
         CREATE: "создать сущность",
-        FORM: "вывод тестовой формы",
-        LIST: "список сущностей по типу"
+        LIST: "список сущностей по типу",
+        TEST: "echo",
     }
 
     @staticmethod
-    def Commands():
+    def get_bot_commands():
         res = []
         for cmd in Commands.DESCRIPTIONS.keys():
             res.append(BotCommand(cmd, Commands.DESCRIPTIONS[cmd]))
@@ -65,7 +64,16 @@ class TelegramBot():
 
 
     async def post_init(self, application: Application):
-        await application.bot.set_my_commands(Commands.Commands())
+        try:
+            scope = BotCommandScopeDefault()
+            commands = Commands.get_bot_commands()
+                
+            await application.bot.delete_my_commands(scope=scope)
+            await application.bot.set_my_commands(commands, scope=scope)
+            await application.bot.set_chat_menu_button()
+            
+        except Exception as e:
+            self.logger.error(f"Ошибка при установке команд бота: {e}", exc_info=True)
 
 
     def Start(self):
