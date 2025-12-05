@@ -49,15 +49,3 @@ class BaseForm():
         self._text = header + body
 
         return Layout(self._text, self._reply_markup, self._parce_mode)
-
-
-
-        
-
-        
-
-        
-
-        
-
-    

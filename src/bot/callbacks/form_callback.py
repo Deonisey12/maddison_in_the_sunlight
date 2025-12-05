@@ -5,7 +5,7 @@ from entities.database import Database
 import telegram as tg
 import telegram.ext as tgx
 
-from base_form import BaseForm
+from forms.base_form import BaseForm
 from cmd_dictionary import MARKDOWN_V2
 from .base_callback import BaseCallback
 
