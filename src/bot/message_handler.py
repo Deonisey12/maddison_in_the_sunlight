@@ -4,21 +4,17 @@ sys.path.append("src/bot")
 sys.path.append("src/entities")
 
 from entities.database import Database
-from entities.entity import Entity
 import telegram as tg
 import telegram.ext as tgx
 
-from base_form import BaseForm
 from cmd_handler import CmdHandler
 from cmd_dictionary import UserData, CreateState, MARKDOWN_V2, Commands
 from commands.base_command import BaseCommand
 from messages import CreateHandleMessages
-from decorators import delete_command_message
 
 class LocalMessageHandler(BaseCommand):
     def __init__(self, database: Database, cmd: CmdHandler):
         self._database = database
-        self._base_form = BaseForm()
         self._cmd = cmd
         self._create_handle_messages = CreateHandleMessages(database)
 

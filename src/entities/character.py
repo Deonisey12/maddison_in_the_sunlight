@@ -18,7 +18,7 @@ class Character(Entity):
 
     Path = "local/characters"
 
-    def __init__(self, id: int = 0, name="EMPTYNAME", disc="EMPTYDISCRIPTION", tags=[], 
+    def __init__(self, id: int = 0, name="EMPTY NAME", disc="EMPTY DISCRIPTION", tags=[], 
                  attributesPhysical=0, attributesSocial=0, attributesMental=0,
                  abilitiesTalents=0, abilitiesSkills=0, abilitiesKnowledges=0, willpower=0) -> None:
         super().__init__(id, name, disc, tags)

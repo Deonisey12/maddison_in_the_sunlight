@@ -1,5 +1,4 @@
 import sys
-
 sys.path.append("src/bot")
 
 import telegram as tg
@@ -10,9 +9,9 @@ from generators.generator import Generator
 from generators.list import Entities
 
 from .base_callback import BaseCallback
-from bot.cmd_dictionary import MARKDOWN_V2, Actions, ListState, UserData
-from bot.base_form import BaseForm
-from bot.commands.list_command import LC_Buttons
+from cmd_dictionary import MARKDOWN_V2, Actions, ListState, UserData
+from forms import BaseForm, EntityForm
+from commands.list_command import LC_Buttons
 
 
 class ListCallback(BaseCallback):
@@ -20,6 +19,7 @@ class ListCallback(BaseCallback):
         self._database = database
         self._generator = Generator()
         self._base_form = BaseForm()
+        self._entity_form = EntityForm()
         self._lc_buttons = LC_Buttons(self._generator)
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE, data: str):
@@ -88,7 +88,7 @@ class ListCallback(BaseCallback):
 
         if state[ListState.ENTITY] is None:
             entity = self._database.GetEntityById(state[ListState.TYPE], int(data))
-            layout = self._base_form.GenerateLayout(
+            layout = self._entity_form.GenerateLayout(
                 entity,
                 self._lc_buttons.get_buttons(),
                 action=Actions.LIST
@@ -96,11 +96,18 @@ class ListCallback(BaseCallback):
 
             state[ListState.ENTITY] = entity
 
-            await query.edit_message_text(
-                layout.text,
-                reply_markup=layout.reply_markup,
-                parse_mode=layout.parce_mode
-            )
+            try:
+                await query.edit_message_text(
+                    layout.text,
+                    reply_markup=layout.reply_markup,
+                    parse_mode=layout.parce_mode
+                )
+            except Exception as ex:
+                await query.edit_message_text(
+                    f"Не удалось отобразить информацию о сущности {entity.name}",
+                    reply_markup=layout.reply_markup,
+                    parse_mode=layout.parce_mode
+                )
             return
 
     

@@ -7,7 +7,7 @@ from generators.list import Entities
 import telegram as tg
 import telegram.ext as tgx
 
-from base_form import BaseForm
+from forms import BaseForm
 from cmd_dictionary import ListState, UserData, Actions
 from .base_command import BaseCommand
 

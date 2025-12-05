@@ -9,5 +9,5 @@ class Event(Entity):
 
     Path = "local/events"
 
-    def __init__(self, id: int = 0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
+    def __init__(self, id: int = 0, name="EMPTY NAME", disc="EMPTY DISCRIPTION", tags=[]) -> None:
         super().__init__(id, name, disc, tags)

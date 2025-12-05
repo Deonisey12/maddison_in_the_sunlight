@@ -8,7 +8,7 @@ class Item(Entity):
 
     Path = "local/items"
 
-    def __init__(self, id: int=0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[], isUsable=False) -> None:
+    def __init__(self, id: int=0, name="EMPTY NAME", disc="EMPTY DISCRIPTION", tags=[], isUsable=False) -> None:
         super().__init__(id, name, disc, tags)
         self._isUsable = isUsable
 

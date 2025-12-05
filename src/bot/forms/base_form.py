@@ -1,10 +1,9 @@
 import sys
 sys.path.append("src/entities")
 
-from entities.scene import Scene
+from entities.entity import Entity
 
 import telegram as tg
-import telegram.ext as tgx
 
 
 class Layout():
@@ -27,7 +26,13 @@ class BaseForm():
         self._text = ""
         self._img = None
 
-    def GenerateLayout(self, main_scene: Scene, vars: Scene = [], action: str = None):
+    def _generate_header(self, main_scene: Entity) -> str:
+        return f"*{str(main_scene.name)}*"
+
+    def _generate_body(self, main_scene: Entity) -> str:
+        return f"{str(main_scene.disc)}"
+
+    def GenerateLayout(self, main_scene: Entity, vars: Entity = [], action: str = None):
         if len(vars) < 1:
             raise ValueError
         self.Clear()
@@ -43,9 +48,9 @@ class BaseForm():
 
         self._reply_markup = tg.InlineKeyboardMarkup(keyboard)
 
-        header = f"*{str(main_scene.name)}*\n"
-        body = f"{str(main_scene.disc)}"
+        header = self._generate_header(main_scene)
+        body = self._generate_body(main_scene)
 
-        self._text = header + body
+        self._text = header + "\n" + body
 
         return Layout(self._text, self._reply_markup, self._parce_mode)

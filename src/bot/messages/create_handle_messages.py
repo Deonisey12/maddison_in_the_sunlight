@@ -49,19 +49,8 @@ class CreateHandleMessages():
         e = self._database.CreateEntity(state[CreateState.TYPE], 0, *state[CreateState.TEXTS])
         await self._cleanup_messages(context.bot, chat_id, state.get(CreateState.MESSAGES_TO_DELETE, []))
 
-        all_params = e.base_prm + e.additional_prm
-        class_name = type(e).__name__
-
         info_lines = ["*CREATED ENTITY*"]
-        info_lines.append(f"_CLASS:_ {class_name}")
-
-        for param in all_params:
-            value = getattr(e, param, None) or getattr(e, f"_{param}", "N/A")
-
-            if isinstance(value, list):
-                value = ", ".join(str(v) for v in value) if value else "[]"
-            
-            info_lines.append(Entity.escape_markdown_v2(f"_{param.upper()}:_ {str(value)}"))
+        info_lines.append(Entity.escape_markdown_v2(str(e)))
 
         try:
             await update.message.reply_text("\n".join(info_lines), parse_mode=MARKDOWN_V2)

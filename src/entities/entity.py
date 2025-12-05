@@ -15,7 +15,7 @@ class Entity():
 
     Path = "local/entity"
     
-    def __init__(self, id, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
+    def __init__(self, id, name="EMPTY NAME", disc="EMPTY DISCRIPTION", tags=[]) -> None:
         self._id = int(id)
         self._name = name
         self._disc = disc
@@ -44,16 +44,36 @@ class Entity():
     def filename(self):
             return os.path.join(os.getcwd(), self.shotfilename)
 
+    def _get_param_value(self, param: str):
+        if hasattr(self, param):
+            return getattr(self, param)
+        private_param = f"_{param}"
+        if hasattr(self, private_param):
+            return getattr(self, private_param)
+        return "N/A"
+
+    def _format_param_value(self, value) -> str:
+        if isinstance(value, list):
+            return ", ".join(str(v) for v in value) if value else "[]"
+        return str(value)
+
+    def _to_string(self) -> str:
+        info_lines = [f"_CLASS:_ {self.__class__.__name__}"]
+        all_params = self.base_prm + self.additional_prm
+
+        for param in all_params:
+            value = self._get_param_value(param)
+            formatted_value = self._format_param_value(value)
+            param_line = f"_{param.upper()}:_ {formatted_value}"
+            info_lines.append(param_line)
+        
+        return "\n".join(info_lines)
+
+    def __str__(self) -> str:
+        return self._to_string()
+
     def __repr__(self) -> str:
-        res = f"<{self.__class__.__name__}__id{self._id}_{self._name}: \"{self._disc}\""
-        for ap in self.additional_prm:            
-            try:
-                res += f", {ap}:{getattr(self, f"_{ap}")}"
-            except:
-                continue
-            
-        res += ">"
-        return res
+        return self._to_string()
 
     def IncId(self):
         self._id += 1
