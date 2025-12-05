@@ -13,10 +13,6 @@ class StartCommand(BaseCommand):
         user = update.effective_user
         context.user_data.clear()
 
-        if user.username is None:
-            await update.message.reply_html("Ошибка: username не определен")
-            return
-
         old_user_data = UserData.Load(user.username)
         if old_user_data is not None:
             UserData.Delete(user.username)

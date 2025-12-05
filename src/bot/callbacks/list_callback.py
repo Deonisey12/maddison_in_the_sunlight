@@ -31,6 +31,17 @@ class ListCallback(BaseCallback):
             type_key = list(Entities.keys())[int(data)]
             entity_ids = self._database.db(type_key)
 
+            if len(entity_ids) == 0:
+                await query.edit_message_text(
+                    "Нет элементов списка",
+                    reply_markup=None,
+                    parse_mode=MARKDOWN_V2
+                )
+                state[ListState.ENTITY] = None
+                state[ListState.TYPE] = None
+                state[ListState.ACTIVE] = False
+                return
+
             entities = []
             for e in entity_ids.keys():
                 entity = self._database.GetEntityById(type_key, e)

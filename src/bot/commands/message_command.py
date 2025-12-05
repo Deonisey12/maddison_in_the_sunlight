@@ -43,8 +43,7 @@ class MessageCommand(BaseCommand):
             return
 
         id_value = str(state[CreateState.IDS].pop(0)).upper()
-        escaped_id = BaseForm.escape_markdown_v2(id_value)
-        answer = f"*{escaped_id}*"
+        answer = f"*{id_value}*"
         next_message = await update.message.reply_text(f"{answer}", parse_mode=MARKDOWN_V2)
         state[CreateState.MESSAGES_TO_DELETE].append(next_message.message_id)
 
@@ -56,8 +55,7 @@ class MessageCommand(BaseCommand):
         class_name = type(e).__name__
 
         info_lines = ["*CREATED ENTITY*"]
-        escaped_class_name = BaseForm.escape_markdown_v2(class_name)
-        info_lines.append(f"_CLASS:_ {escaped_class_name}")
+        info_lines.append(f"_CLASS:_ {class_name}")
 
         for param in all_params:
             value = getattr(e, param, None) or getattr(e, f"_{param}", "N/A")
@@ -65,9 +63,7 @@ class MessageCommand(BaseCommand):
             if isinstance(value, list):
                 value = ", ".join(str(v) for v in value) if value else "[]"
             
-            escaped_value = BaseForm.escape_markdown_v2(str(value))
-            escaped_param = BaseForm.escape_markdown_v2(param.upper())
-            info_lines.append(f"_{escaped_param}:_ {escaped_value}")
+            info_lines.append(f"_{param.upper()}:_ {str(value)}")
 
         await update.message.reply_text("\n".join(info_lines), parse_mode=MARKDOWN_V2)
         

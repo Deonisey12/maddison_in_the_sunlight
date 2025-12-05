@@ -21,9 +21,7 @@ class FormCallback(BaseCallback):
         entity = self._database.GetEntityById("Event", entity_id)
         
         if entity:
-            escaped_name = BaseForm.escape_markdown_v2(str(entity.name))
-            escaped_disc = BaseForm.escape_markdown_v2(str(entity.disc))
-            entity_info = f"*{escaped_name}*\n\n{escaped_disc}"
+            entity_info = f"*{str(entity.name)}*\n\n{str(entity.disc)}"
             await query.edit_message_text(text=entity_info, parse_mode=MARKDOWN_V2)
         else:
             await query.edit_message_text(text="Сущность не найдена")

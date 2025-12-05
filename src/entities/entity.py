@@ -15,8 +15,8 @@ class Entity():
 
     Path = "local/entity"
     
-    def __init__(self, id: int=0, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
-        self._id = id
+    def __init__(self, id, name="EMPTY_NAME", disc="EMPTY_DISCRIPTION", tags=[]) -> None:
+        self._id = int(id)
         self._name = name
         self._disc = disc
         self._tags = tags
@@ -58,6 +58,11 @@ class Entity():
     def IncId(self):
         self._id += 1
 
+    @staticmethod
+    def escape_markdown_v2(text: str) -> str:
+        escape_chars = r'().!-'
+        return ''.join(['\\' + char if char in escape_chars else char for char in text])
+
     def SaveToJson(self):
         os.makedirs(os.path.join(os.getcwd(), self._path), exist_ok=True)
 
@@ -72,10 +77,10 @@ class Entity():
         try:
             args = []
             for bp in cls.base_prm:
-                args.append(json_dct[f"_{bp}"])
+                args.append(Entity.escape_markdown_v2(str(json_dct[f"_{bp}"])))
 
             for ap in cls.additional_prm:
-                args.append(json_dct[f"_{ap}"])
+                args.append(Entity.escape_markdown_v2(str(json_dct[f"_{ap}"])))
 
             res = cls(*args)
 
