@@ -1,7 +1,9 @@
 import sys
 sys.path.append("src/bot")
+sys.path.append("src/entities")
 
 from entities.database import Database
+from entities.entity import Entity
 import telegram as tg
 import telegram.ext as tgx
 
@@ -63,7 +65,7 @@ class MessageCommand(BaseCommand):
             if isinstance(value, list):
                 value = ", ".join(str(v) for v in value) if value else "[]"
             
-            info_lines.append(f"_{param.upper()}:_ {str(value)}")
+            info_lines.append(Entity.escape_markdown_v2(f"_{param.upper()}:_ {str(value)}"))
 
         await update.message.reply_text("\n".join(info_lines), parse_mode=MARKDOWN_V2)
         
