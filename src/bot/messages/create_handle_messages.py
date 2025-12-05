@@ -2,26 +2,22 @@ import sys
 sys.path.append("src/bot")
 sys.path.append("src/entities")
 
-from entities.database import Database
-from entities.entity import Entity
 import telegram as tg
 import telegram.ext as tgx
 
-from base_form import BaseForm
-from cmd_dictionary import UserData, CreateState, MARKDOWN_V2
-from .base_command import BaseCommand
+from entities import Entity
+from entities.database import Database
+from cmd_dictionary import CreateState, MARKDOWN_V2, UserData
 
+class CreateHandleMessages():
 
-class MessageCommand(BaseCommand):
     def __init__(self, database: Database):
         self._database = database
-        self._base_form = BaseForm()
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-        state = context.user_data.get(UserData.CREATE_STATE)
-        if not state or not state.get(CreateState.ACTIVE):
-            return
 
+        state = context.user_data.get(UserData.CREATE_STATE)
+        
         text = update.message.text.strip()
         chat_id = update.message.chat_id
         user_message_id = update.message.message_id
@@ -67,7 +63,10 @@ class MessageCommand(BaseCommand):
             
             info_lines.append(Entity.escape_markdown_v2(f"_{param.upper()}:_ {str(value)}"))
 
-        await update.message.reply_text("\n".join(info_lines), parse_mode=MARKDOWN_V2)
+        try:
+            await update.message.reply_text("\n".join(info_lines), parse_mode=MARKDOWN_V2)
+        except Exception as ex:
+            await update.message.reply_text(f"Сущность успешно создана, но не удалось отправить информацию о ней.")
         
         state[CreateState.ACTIVE] = False
         state[CreateState.TEXTS] = []
@@ -80,4 +79,3 @@ class MessageCommand(BaseCommand):
                 await bot.delete_message(chat_id=chat_id, message_id=msg_id)
             except Exception:
                 pass
-

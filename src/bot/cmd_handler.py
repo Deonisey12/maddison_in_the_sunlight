@@ -14,13 +14,14 @@ from commands import (
     CreateCommand,
     TestFormCommand,
     ListCommand,
-    MessageCommand,
 )
-
 
 class CmdHandler:
     
-    def __init__(self, database: Database):
+    def __init__(self, database: Database, reply_markup: tg.ReplyKeyboardMarkup = None):
+
+        self._reply_markup = reply_markup
+
         self._start_command = StartCommand()
         self._help_command = HelpCommand()
         self._echo_command = EchoCommand()
@@ -28,11 +29,10 @@ class CmdHandler:
         self._test_form_command = TestFormCommand(database)
         self._callback_handler = CallbackHandler(database)
         self._list_command = ListCommand(database)
-        self._message_command = MessageCommand(database)
 
     @delete_command_message
     async def start(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-        await self._start_command.execute(update, context)
+        await self._start_command.execute(update, context, self._reply_markup)
 
     @delete_command_message
     async def help_command(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
@@ -53,9 +53,6 @@ class CmdHandler:
     @delete_command_message
     async def list(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         await self._list_command.execute(update, context)
-
-    async def message(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-        await self._message_command.execute(update, context)
 
     async def button_callback(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         await self._callback_handler.execute(update, context)

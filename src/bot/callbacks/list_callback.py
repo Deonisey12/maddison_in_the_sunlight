@@ -29,14 +29,19 @@ class ListCallback(BaseCallback):
         if not state or not state.get(ListState.ACTIVE):
             return
 
+        type_key = None
+
         if int(data) in self._lc_buttons.get_button_ids():
 
             if int(data) == self._lc_buttons.BACK:
                 if state[ListState.ENTITY] is None:
                     state[ListState.TYPE] = None
+                    entities = self._generator.GetEntities()
+                    entities.append(self._lc_buttons.CLOSE_BUTTON)
+
                     layout = self._base_form.GenerateLayout(
                         self._generator.Create("Scene", 0, "List Entity", "Выберите тип сущности"),
-                        self._generator.GetEntities().append(self._lc_buttons.CLOSE_BUTTON),
+                        entities,
                         action=Actions.LIST
                     )
                 else:
@@ -68,7 +73,9 @@ class ListCallback(BaseCallback):
                 return
 
         if state[ListState.TYPE] is None:
-            type_key = list(Entities.keys())[int(data)]
+            if type_key is None:
+                type_key = list(Entities.keys())[int(data)]
+
             layout = self.get_db_to_layout(type_key)
 
             state[ListState.TYPE] = type_key          
