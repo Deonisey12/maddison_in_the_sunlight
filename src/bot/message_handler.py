@@ -12,7 +12,7 @@ from base_form import BaseForm
 from cmd_handler import CmdHandler
 from cmd_dictionary import UserData, CreateState, MARKDOWN_V2, Commands
 from commands.base_command import BaseCommand
-from messages.create_handle_messages import CreateHandleMessages
+from messages import CreateHandleMessages
 from decorators import delete_command_message
 
 class LocalMessageHandler(BaseCommand):

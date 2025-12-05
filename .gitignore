@@ -2,6 +2,7 @@
 **/.cursor_docs
 **/venv
 
+**/*.egg-info
 **/__pycache__
 
 **/local
