@@ -48,7 +48,7 @@ class Entity():
         res = f"<{self.__class__.__name__}__id{self._id}_{self._name}: \"{self._disc}\""
         for ap in self.additional_prm:            
             try:
-                res += f", {ap}:{getattr(self, f"_{self.__class__.__name__}__{ap}")}"
+                res += f", {ap}:{getattr(self, f"_{ap}")}"
             except:
                 continue
             
