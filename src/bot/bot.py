@@ -1,13 +1,10 @@
 import sys
-import types
 sys.path.append("src/bot")
 
 import logging
 
 from telegram import *
 from telegram.ext import *
-
-from functools import partial
 
 
 from cmd_handler import CmdHandler

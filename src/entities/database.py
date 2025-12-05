@@ -4,8 +4,7 @@ sys.path.append("src/entities")
 
 import os, json
 
-from typing import Hashable, Callable
-from typing_extensions import Dict
+from typing import Hashable
 from generators.list import Entities
 from generators.generator import Generator
 
