@@ -40,6 +40,7 @@ class BaseForm():
                 callback_data = str(v.id)
             kbe = tg.InlineKeyboardButton(str(v.name), callback_data=callback_data)
             keyboard.append([kbe])
+
         self._reply_markup = tg.InlineKeyboardMarkup(keyboard)
 
         header = f"*{str(main_scene.name)}*\n"

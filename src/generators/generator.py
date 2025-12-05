@@ -26,3 +26,11 @@ class Generator():
             return class_ret.JsonDecoder(json_data)
         
         raise ClassNotFoundError
+
+    def GetEntities(self):
+        id = 0
+        entities = []
+        for ename in Entities:
+            entities.append(self.Create("Event", id, ename))
+            id += 1
+        return entities

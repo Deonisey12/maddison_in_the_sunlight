@@ -20,10 +20,7 @@ class CreateCommand(BaseCommand):
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         id = 0
-        entities = []
-        for ename in Entities:
-            entities.append(self._gen.Create("Event", id, ename))
-            id += 1
+        entities = self._gen.GetEntities()
 
         layout = self._base_form.GenerateLayout(
             self._gen.Create("Scene", 0, "Create Entity", "Выберите тип сущности"),
