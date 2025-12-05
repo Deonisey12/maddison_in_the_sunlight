@@ -48,6 +48,11 @@ class TelegramBot():
 
         self._app = Application.builder().token(self.__token).post_init(self.post_init).build()
 
+        menu = [[InlineKeyboardButton("Создать сущность", callback_data="create_entity")],
+                     [InlineKeyboardButton("Список сущностей", callback_data="list_entities")]]
+        reply_markup = InlineKeyboardMarkup(menu)
+        self._app.bot.set_chat_menu_button(reply_markup)
+
 
     def addCmdHandlers(self):
         self._app.add_handler(CommandHandler(Commands.START, self.__cmd.start))
