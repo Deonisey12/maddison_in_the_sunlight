@@ -13,14 +13,16 @@ class Character(Entity):
         "abilitiesSkills",
         "abilitiesKnowledges",
 
-        "willpower"
+        "willpower",
+
+        "maxActionsPerDay"
     ]
 
     Path = "local/characters"
 
     def __init__(self, id: int = 0, name="EMPTY NAME", disc="EMPTY DISCRIPTION", tags=[], 
                  attributesPhysical=0, attributesSocial=0, attributesMental=0,
-                 abilitiesTalents=0, abilitiesSkills=0, abilitiesKnowledges=0, willpower=0) -> None:
+                 abilitiesTalents=0, abilitiesSkills=0, abilitiesKnowledges=0, willpower=0, maxActionsPerDay=0) -> None:
         super().__init__(id, name, disc, tags)
 
         self._attributesPhysical = int(attributesPhysical)
@@ -32,6 +34,11 @@ class Character(Entity):
         self._abilitiesKnowledges = int(abilitiesKnowledges)
         
         self._willpower = int(willpower)
+        self._maxActionsPerDay = int(maxActionsPerDay)    
+
+    @property
+    def maxActionsPerDay(self):
+        return self._maxActionsPerDay
 
     @property
     def attributesPhysical(self):
