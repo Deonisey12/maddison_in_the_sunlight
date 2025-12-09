@@ -1,6 +1,6 @@
 import os
 
-from bot.bot import *
+from bot import TelegramBot
 from entities.database import Database
 
 if __name__ == "__main__":

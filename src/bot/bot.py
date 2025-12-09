@@ -3,9 +3,8 @@ sys.path.append("src/bot")
 
 import logging
 
-from telegram import *
-from telegram.ext import *
-
+import telegram as tg
+import telegram.ext as tgx
 
 from cmd_handler import CmdHandler
 from cmd_dictionary import Commands
@@ -23,33 +22,33 @@ class TelegramBot():
         logging.getLogger("httpx").setLevel(logging.WARNING)
         self.logger = logging.getLogger(__name__)
 
-        self._reply_markup = ReplyKeyboardMarkup(
-            [[KeyboardButton(c)] for c in Commands.DESCRIPTIONS.values()]
+        self._reply_markup = tg.ReplyKeyboardMarkup(
+            [[tg.KeyboardButton(c)] for c in Commands.DESCRIPTIONS.values()]
         )
         self.__cmd = CmdHandler(database, self._reply_markup)
         self.__msg = LocalMessageHandler(database, self.__cmd)
 
-        self._app = Application.builder().token(self.__token).post_init(self.post_init).build()
+        self._app = tgx.Application.builder().token(self.__token).post_init(self.post_init).build()
         
 
 
     def addCmdHandlers(self):
-        self._app.add_handler(CommandHandler(Commands.START, self.__cmd.start))
-        self._app.add_handler(CommandHandler(Commands.TEST, self.__cmd.echo))
-        self._app.add_handler(CommandHandler(Commands.CREATE, self.__cmd.create))
-        self._app.add_handler(CommandHandler(Commands.FORM, self.__cmd.test_form))
-        self._app.add_handler(CommandHandler(Commands.LIST, self.__cmd.list))
+        self._app.add_handler(tgx.CommandHandler(Commands.START, self.__cmd.start))
+        self._app.add_handler(tgx.CommandHandler(Commands.TEST, self.__cmd.echo))
+        self._app.add_handler(tgx.CommandHandler(Commands.CREATE, self.__cmd.create))
+        self._app.add_handler(tgx.CommandHandler(Commands.FORM, self.__cmd.test_form))
+        self._app.add_handler(tgx.CommandHandler(Commands.LIST, self.__cmd.list))
 
-        self._app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, self.__msg.execute))
-
+        self._app.add_handler(tgx.MessageHandler(tgx.filters.TEXT & ~tgx.filters.COMMAND, self.__msg.execute))
+        
 
     def addCallbackHandlers(self):
-        self._app.add_handler(CallbackQueryHandler(self.__cmd.button_callback))
+        self._app.add_handler(tgx.CallbackQueryHandler(self.__cmd.button_callback))
 
 
-    async def post_init(self, application: Application):
+    async def post_init(self, application: tgx.Application):
         try:
-            scope = BotCommandScopeDefault()
+            scope = tg.BotCommandScopeDefault()
             commands = Commands.get_bot_commands()
                 
             await application.bot.delete_my_commands(scope=scope)
