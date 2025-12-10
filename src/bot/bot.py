@@ -63,4 +63,4 @@ class TelegramBot():
         self.addCmdHandlers()
         self.addCallbackHandlers()
 
-        self._app.run_polling(allowed_updates=Update.ALL_TYPES)
+        self._app.run_polling(allowed_updates=tg.Update.ALL_TYPES)
