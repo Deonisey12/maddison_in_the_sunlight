@@ -18,11 +18,16 @@ class Actions():
     CREATE = "create"
     TEST_FORM = "test_form"
     LIST = "list"
+    INVENTORY = "inventory"
 
-class UserData():
+class UserState():
     FORM_ACTIONS = "form_actions"
     CREATE_STATE = "create_state"
     LIST_STATE = "list_state"
+    INVENTORY_STATE = "inventory_state"
+
+class InventoryState():
+    ACTIVE = "active"
 
 
 class Commands():

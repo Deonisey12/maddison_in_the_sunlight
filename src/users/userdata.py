@@ -74,3 +74,10 @@ class UserData():
         if os.path.exists(file_path):
             os.remove(file_path)
 
+    @staticmethod
+    def LoadByName(username: str):
+        with open(f"local/users/{username}.json", "r") as f:
+            data = f.read()
+            js_data = json.loads(data)
+            user_data = UserData.JsonDecoder(js_data)
+        return user_data
