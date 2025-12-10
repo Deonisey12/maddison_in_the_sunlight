@@ -14,6 +14,16 @@ class CreateHandleMessages():
     def __init__(self, database: Database):
         self._database = database
 
+    def _cleanup_state(self, context: tgx.ContextTypes.DEFAULT_TYPE):
+        state = context.user_data.get(UserData.CREATE_STATE)
+
+        state[CreateState.ACTIVE] = False
+        state[CreateState.MESSAGES_TO_DELETE] = []
+        state[CreateState.TYPE] = None
+        state[CreateState.IDS] = []
+        state[CreateState.TEXTS] = []
+        
+
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
 
         state = context.user_data.get(UserData.CREATE_STATE)
@@ -25,14 +35,13 @@ class CreateHandleMessages():
 
         if text.lower() == "cancel":
             await self._cleanup_messages(context.bot, chat_id, state.get(CreateState.MESSAGES_TO_DELETE, []))
-            state[CreateState.ACTIVE] = False
-            state[CreateState.TEXTS] = []
-            state[CreateState.IDS] = []
+            self._cleanup_state(context)
             await update.message.reply_text("Canceled")
             return
 
         if text.lower() == "eof":
             await self._finish_entity_creation(update, context, state, chat_id)
+            self._cleanup_state(context)
             return
 
         state[CreateState.TEXTS].append(text)
@@ -42,9 +51,8 @@ class CreateHandleMessages():
 
         if not await CreateHandleMessages.generate_answer(update, context):
             await self._cleanup_messages(context.bot, chat_id, state.get(CreateState.MESSAGES_TO_DELETE, []))
-            state[CreateState.ACTIVE] = False
-            state[CreateState.TEXTS] = []
-            state[CreateState.IDS] = []
+            await self._cleanup_state(context)
+
             return
 
     @staticmethod
@@ -79,11 +87,7 @@ class CreateHandleMessages():
             await update.message.reply_text("\n".join(info_lines), parse_mode=MARKDOWN_V2)
         except Exception as ex:
             await update.message.reply_text(f"Сущность успешно создана, но не удалось отправить информацию о ней.")
-        
-        state[CreateState.ACTIVE] = False
-        state[CreateState.TEXTS] = []
-        state[CreateState.IDS] = []
-        state[CreateState.MESSAGES_TO_DELETE] = []
+
 
     async def _cleanup_messages(self, bot, chat_id, message_ids):
         for msg_id in message_ids:
