@@ -26,6 +26,17 @@ class BaseForm():
         self._text = ""
         self._img = None
 
+    def _generate_keyboard(self, vars: Entity = [], action: str = None):
+        keyboard = []
+        for v in vars:
+            if action:
+                callback_data = f"{action}:{v.id}"
+            else:
+                callback_data = str(v.id)
+            kbe = tg.InlineKeyboardButton(str(v.name), callback_data=callback_data)
+            keyboard.append([kbe])
+        return tg.InlineKeyboardMarkup(keyboard)
+
     def _generate_header(self, main_scene: Entity) -> str:
         return f"*{str(main_scene.name)}*"
 
@@ -37,16 +48,7 @@ class BaseForm():
             raise ValueError
         self.Clear()
         
-        keyboard = []
-        for v in vars:
-            if action:
-                callback_data = f"{action}:{v.id}"
-            else:
-                callback_data = str(v.id)
-            kbe = tg.InlineKeyboardButton(str(v.name), callback_data=callback_data)
-            keyboard.append([kbe])
-
-        self._reply_markup = tg.InlineKeyboardMarkup(keyboard)
+        self._reply_markup = self._generate_keyboard(vars, action)
 
         header = self._generate_header(main_scene)
         body = self._generate_body(main_scene)
