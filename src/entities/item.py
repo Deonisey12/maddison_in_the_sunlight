@@ -30,8 +30,12 @@ class Item(Entity):
         return self._function
 
     def ParameterRegistration(self):
-        self.Function = Functions.GetFunction(str(self._function))
-        self.FunctionParams = []
+        try:
+            self.Function = Functions.GetFunction(str(self._function))
+            self.FunctionParams = []
 
-        for i in str(self._functionParams).split(", "):
-            self.FunctionParams.append(int(i))
+            for i in str(self._functionParams).split(", "):
+                self.FunctionParams.append(int(i))
+        except Exception as ex:
+            self.Function = None
+            self.FunctionParams = []
