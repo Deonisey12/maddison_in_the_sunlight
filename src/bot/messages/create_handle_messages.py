@@ -7,15 +7,16 @@ import telegram.ext as tgx
 
 from entities import Entity
 from entities.database import Database
-from cmd_dictionary import CreateState, MARKDOWN_V2, UserData
+from cmd_dictionary import CreateState, MARKDOWN_V2, UserState
 
 class CreateHandleMessages():
 
     def __init__(self, database: Database):
         self._database = database
 
-    def _cleanup_state(self, context: tgx.ContextTypes.DEFAULT_TYPE):
-        state = context.user_data.get(UserData.CREATE_STATE)
+    @staticmethod
+    def cleanup_state(context: tgx.ContextTypes.DEFAULT_TYPE):
+        state = context.user_data.get(UserState.CREATE_STATE)
 
         state[CreateState.ACTIVE] = False
         state[CreateState.MESSAGES_TO_DELETE] = []
@@ -26,7 +27,7 @@ class CreateHandleMessages():
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
 
-        state = context.user_data.get(UserData.CREATE_STATE)
+        state = context.user_data.get(UserState.CREATE_STATE)
         
         text = update.message.text.strip()
         chat_id = update.message.chat_id
@@ -35,26 +36,26 @@ class CreateHandleMessages():
 
         if text.lower() == "cancel":
             await self._cleanup_messages(context.bot, chat_id, state.get(CreateState.MESSAGES_TO_DELETE, []))
-            self._cleanup_state(context)
+            CreateHandleMessages.cleanup_state(context)
             await update.message.reply_text("Canceled")
             return
 
         state[CreateState.TEXTS].append(text)
         if (len(state[CreateState.IDS]) == 0) or (text.lower() == "eof"):
             await self._finish_entity_creation(update, context, state, chat_id)
-            self._cleanup_state(context)
+            CreateHandleMessages.cleanup_state(context)
             return
 
         if not await CreateHandleMessages.generate_answer(update, context):
             await self._cleanup_messages(context.bot, chat_id, state.get(CreateState.MESSAGES_TO_DELETE, []))
-            self._cleanup_state(context)
+            CreateHandleMessages.cleanup_state(context)
 
             return
 
     @staticmethod
     async def generate_answer(update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
 
-        state = context.user_data.get(UserData.CREATE_STATE)
+        state = context.user_data.get(UserState.CREATE_STATE)
 
         id_value = str(state[CreateState.IDS].pop(0)).upper()
         answer = f"*{id_value}*"

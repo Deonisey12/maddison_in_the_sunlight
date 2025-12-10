@@ -8,8 +8,9 @@ import telegram as tg
 import telegram.ext as tgx
 
 from forms import BaseForm
-from cmd_dictionary import UserData, Actions
+from cmd_dictionary import UserState, Actions
 from .base_command import BaseCommand
+from messages.create_handle_messages import CreateHandleMessages
 
 
 class CreateCommand(BaseCommand):
@@ -19,8 +20,10 @@ class CreateCommand(BaseCommand):
         self._gen = Generator()
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-        id = 0
         entities = self._gen.GetEntities()
+
+        context.user_data[UserState.CREATE_STATE] = {}
+        CreateHandleMessages.cleanup_state(context)
 
         layout = self._base_form.GenerateLayout(
             self._gen.Create("Scene", 0, "Create Entity", "Выберите тип сущности"),

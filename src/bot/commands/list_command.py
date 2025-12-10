@@ -8,7 +8,7 @@ import telegram as tg
 import telegram.ext as tgx
 
 from forms import BaseForm
-from cmd_dictionary import ListState, UserData, Actions
+from cmd_dictionary import ListState, UserState, Actions
 from .base_command import BaseCommand
 from .list_buttons import LC_Buttons
 
@@ -29,7 +29,7 @@ class ListCommand(BaseCommand):
             action=Actions.LIST
         )
         
-        context.user_data[UserData.LIST_STATE] = {
+        context.user_data[UserState.LIST_STATE] = {
             ListState.ACTIVE: True,
             ListState.TYPE: None,
             ListState.ENTITY: None

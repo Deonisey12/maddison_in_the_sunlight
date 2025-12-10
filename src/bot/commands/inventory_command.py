@@ -5,7 +5,7 @@ sys.path.append("src/bot")
 import telegram as tg
 import telegram.ext as tgx
 
-from cmd_dictionary import Actions
+from cmd_dictionary import Actions, UserState
 from .base_command import BaseCommand
 from entities.database import Database
 from users.userdata import UserData
@@ -21,6 +21,10 @@ class InventoryCommand(BaseCommand):
         self._list_buttons = LC_Buttons(self._gen)
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
+
+        context.user_data[UserState.INVENTORY_STATE] = {}
+        # InventoryHandleMessages.cleanup_state(context)
+        
         user_name = update.message.from_user.username
         user_data = UserData.LoadByName(user_name)
 

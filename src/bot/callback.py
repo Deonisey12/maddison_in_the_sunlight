@@ -5,7 +5,7 @@ from entities.database import Database
 import telegram as tg
 import telegram.ext as tgx
 
-from cmd_dictionary import UserData, Actions
+from cmd_dictionary import UserState, Actions
 from callbacks import CreateCallback, FormCallback, ListCallback
 
 

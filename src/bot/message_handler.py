@@ -8,7 +8,7 @@ import telegram as tg
 import telegram.ext as tgx
 
 from cmd_handler import CmdHandler
-from cmd_dictionary import UserData, CreateState, MARKDOWN_V2, Commands
+from cmd_dictionary import UserState, CreateState, MARKDOWN_V2, Commands
 from commands.base_command import BaseCommand
 from messages import CreateHandleMessages
 
@@ -21,7 +21,7 @@ class LocalMessageHandler(BaseCommand):
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         message_text = update.message.text
 
-        state = context.user_data.get(UserData.CREATE_STATE)
+        state = context.user_data.get(UserState.CREATE_STATE)
         if not state or not state.get(CreateState.ACTIVE):
             if message_text == Commands.DESCRIPTIONS[Commands.CREATE]:
                 await self._cmd.create(update, context)

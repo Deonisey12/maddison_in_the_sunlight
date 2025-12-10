@@ -9,7 +9,7 @@ from generators.generator import Generator
 from generators.list import Entities
 
 from .base_callback import BaseCallback
-from cmd_dictionary import MARKDOWN_V2, Actions, ListState, UserData
+from cmd_dictionary import MARKDOWN_V2, Actions, ListState, UserState
 from forms import BaseForm, EntityForm
 from commands.list_buttons import LC_Buttons
 
@@ -24,7 +24,7 @@ class ListCallback(BaseCallback):
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE, data: str):
         query = update.callback_query
-        state = context.user_data.get(UserData.LIST_STATE, {})
+        state = context.user_data.get(UserState.LIST_STATE, {})
 
         if not state or not state.get(ListState.ACTIVE):
             return

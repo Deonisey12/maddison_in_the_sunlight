@@ -6,7 +6,7 @@ import telegram as tg
 import telegram.ext as tgx
 
 from forms.base_form import BaseForm
-from cmd_dictionary import UserData, Actions
+from cmd_dictionary import Actions
 from .base_command import BaseCommand
 
 
@@ -25,7 +25,7 @@ class TestFormCommand(BaseCommand):
             action=Actions.TEST_FORM
         )
         
-        sent_message = await update.message.reply_text(
+        await update.message.reply_text(
             layout.text,
             reply_markup=layout.reply_markup,
             parse_mode=layout.parce_mode

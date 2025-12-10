@@ -5,7 +5,7 @@ from generators.list import Entities
 import telegram as tg
 import telegram.ext as tgx
 
-from cmd_dictionary import UserData, CreateState, MARKDOWN_V2
+from cmd_dictionary import UserState, CreateState, MARKDOWN_V2
 from .base_callback import BaseCallback
 from messages.create_handle_messages import CreateHandleMessages
 
@@ -26,7 +26,7 @@ class CreateCallback(BaseCallback):
             CreateState.TEXTS: [],
             CreateState.MESSAGES_TO_DELETE: [],
         }
-        context.user_data[UserData.CREATE_STATE] = state
+        context.user_data[UserState.CREATE_STATE] = state
 
         edited_message = await query.edit_message_text(text=f"Заполните параметры для {type_key}", parse_mode=MARKDOWN_V2)
         state[CreateState.MESSAGES_TO_DELETE].append(edited_message.message_id)
