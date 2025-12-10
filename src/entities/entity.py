@@ -90,6 +90,9 @@ class Entity():
         file.write(obj_js)
         file.close()
 
+    def ParameterRegistration(self):
+        pass
+
     @classmethod
     def JsonDecoder(cls, json_dct):
         try:
@@ -101,6 +104,8 @@ class Entity():
                 args.append(Entity.escape_markdown_v2(str(json_dct[f"_{ap}"])))
 
             res = cls(*args)
+
+            res.ParameterRegistration()
 
             return res
         except Exception as ex:

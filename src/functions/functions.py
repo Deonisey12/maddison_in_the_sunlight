@@ -27,8 +27,8 @@ class Functions:
         "Relax": RelaxFunction,
     }
 
-    def GetFunction(self, function_name: str):
-        function_class = self.Functions.get(function_name, None)
+    def GetFunction(function_name: str):
+        function_class = Functions.Functions.get(function_name, None)
         if function_class:
             return function_class.execute
         return None

@@ -1,7 +1,10 @@
 import sys
 sys.path.append("src/entities")
+sys.path.append("src/functions")
 
 from entity import Entity
+from functions import Functions
+
 
 class Item(Entity):
     additional_prm = [
@@ -25,3 +28,10 @@ class Item(Entity):
     @property
     def function(self):
         return self._function
+
+    def ParameterRegistration(self):
+        self.Function = Functions.GetFunction(str(self._function))
+        self.FunctionParams = []
+
+        for i in str(self._functionParams).split(", "):
+            self.FunctionParams.append(int(i))
