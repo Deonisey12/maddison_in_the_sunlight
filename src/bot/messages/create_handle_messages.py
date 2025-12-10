@@ -39,19 +39,15 @@ class CreateHandleMessages():
             await update.message.reply_text("Canceled")
             return
 
-        if text.lower() == "eof":
+        state[CreateState.TEXTS].append(text)
+        if (len(state[CreateState.IDS]) == 0) or (text.lower() == "eof"):
             await self._finish_entity_creation(update, context, state, chat_id)
             self._cleanup_state(context)
             return
 
-        state[CreateState.TEXTS].append(text)
-        if len(state[CreateState.IDS]) == 0:
-            await self._finish_entity_creation(update, context, state, chat_id)
-            return
-
         if not await CreateHandleMessages.generate_answer(update, context):
             await self._cleanup_messages(context.bot, chat_id, state.get(CreateState.MESSAGES_TO_DELETE, []))
-            await self._cleanup_state(context)
+            self._cleanup_state(context)
 
             return
 
@@ -93,5 +89,5 @@ class CreateHandleMessages():
         for msg_id in message_ids:
             try:
                 await bot.delete_message(chat_id=chat_id, message_id=msg_id)
-            except Exception:
-                pass
+            except Exception as ex:
+                print(f"Error deleting message {msg_id}: {ex}")
