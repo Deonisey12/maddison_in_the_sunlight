@@ -33,6 +33,7 @@ class LocalMessageHandler(BaseCommand):
                 await self._cmd.echo(update, context)
                 return
             elif message_text == Commands.DESCRIPTIONS[Commands.INVENTORY]: 
+                await self._cmd.inventory(update, context)
                 return
             return
 

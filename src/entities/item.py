@@ -3,7 +3,7 @@ sys.path.append("src/entities")
 sys.path.append("src/functions")
 
 from entity import Entity
-from functions import Functions
+
 
 
 class Item(Entity):
@@ -32,6 +32,7 @@ class Item(Entity):
     def ParameterRegistration(self):
         if self._isUsable:
             try:
+                from functions import Functions
                 self.Function = Functions.GetFunction(str(self._function))
                 self.FunctionParams = []
 
@@ -43,4 +44,4 @@ class Item(Entity):
 
     def Use(self, user_data):
         if (self._isUsable) and (self.Function is not None):
-                self.Function(user_data, *self.FunctionParams)
+            self.Function(user_data, *self.FunctionParams)
