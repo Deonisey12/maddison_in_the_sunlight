@@ -30,12 +30,17 @@ class Item(Entity):
         return self._function
 
     def ParameterRegistration(self):
-        try:
-            self.Function = Functions.GetFunction(str(self._function))
-            self.FunctionParams = []
+        if self._isUsable:
+            try:
+                self.Function = Functions.GetFunction(str(self._function))
+                self.FunctionParams = []
 
-            for i in str(self._functionParams).split(", "):
-                self.FunctionParams.append(int(i))
-        except Exception as ex:
-            self.Function = None
-            self.FunctionParams = []
+                for i in str(self._functionParams).split(", "):
+                    self.FunctionParams.append(int(i))
+            except Exception as ex:
+                self.Function = None
+                self.FunctionParams = []
+
+    def Use(self, user_data):
+        if (self._isUsable) and (self.Function is not None):
+                self.Function(user_data, *self.FunctionParams)
