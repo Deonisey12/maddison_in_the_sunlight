@@ -13,7 +13,11 @@ class InventoryForm(BaseForm):
                 callback_data = f"{action}:{v.id}"
             else:
                 callback_data = str(v.id)
-            kbe = tg.InlineKeyboardButton(f"{str(v.name)} x{self.numb[i]}", callback_data=callback_data)
+
+            name = f"{str(v.name)}"
+            if self.numb[i] > 0:
+                name += f" x{self.numb[i]}"
+            kbe = tg.InlineKeyboardButton(name, callback_data=callback_data)
             keyboard.append([kbe])
             i += 1
         return tg.InlineKeyboardMarkup(keyboard)
