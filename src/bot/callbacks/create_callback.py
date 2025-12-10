@@ -7,6 +7,7 @@ import telegram.ext as tgx
 
 from cmd_dictionary import UserData, CreateState, MARKDOWN_V2
 from .base_callback import BaseCallback
+from messages.create_handle_messages import CreateHandleMessages
 
 
 class CreateCallback(BaseCallback):
@@ -33,6 +34,5 @@ class CreateCallback(BaseCallback):
         if state[CreateState.IDS]:
             state[CreateState.IDS].pop(0)
         if state[CreateState.IDS]:
-            next_message = await query.message.reply_text(f"*{state[CreateState.IDS].pop(0)}*".upper(), parse_mode=MARKDOWN_V2)
-            state[CreateState.MESSAGES_TO_DELETE].append(next_message.message_id)
+            await CreateHandleMessages.generate_answer(update, context)
 

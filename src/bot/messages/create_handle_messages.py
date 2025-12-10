@@ -40,10 +40,33 @@ class CreateHandleMessages():
             await self._finish_entity_creation(update, context, state, chat_id)
             return
 
+        if not await CreateHandleMessages.generate_answer(update, context):
+            await self._cleanup_messages(context.bot, chat_id, state.get(CreateState.MESSAGES_TO_DELETE, []))
+            state[CreateState.ACTIVE] = False
+            state[CreateState.TEXTS] = []
+            state[CreateState.IDS] = []
+            return
+
+    @staticmethod
+    async def generate_answer(update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
+
+        state = context.user_data.get(UserData.CREATE_STATE)
+
         id_value = str(state[CreateState.IDS].pop(0)).upper()
         answer = f"*{id_value}*"
-        next_message = await update.message.reply_text(f"{answer}", parse_mode=MARKDOWN_V2)
-        state[CreateState.MESSAGES_TO_DELETE].append(next_message.message_id)
+
+        try:
+            try:
+                next_message = await update.message.reply_text(f"{answer}", parse_mode=MARKDOWN_V2)
+            except AttributeError:
+                next_message = await update.callback_query.message.reply_text(f"{answer}", parse_mode=MARKDOWN_V2)
+            state[CreateState.MESSAGES_TO_DELETE].append(next_message.message_id)
+        except Exception as ex:
+            await update.message.reply_text(f"Error: {ex}")
+            return False
+
+        return True
+
 
     async def _finish_entity_creation(self, update, context, state, chat_id):
         e = self._database.CreateEntity(state[CreateState.TYPE], 0, *state[CreateState.TEXTS])
