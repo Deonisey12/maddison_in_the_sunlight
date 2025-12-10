@@ -11,7 +11,7 @@ from generators.list import Entities
 from .base_callback import BaseCallback
 from cmd_dictionary import MARKDOWN_V2, Actions, ListState, UserData
 from forms import BaseForm, EntityForm
-from commands.list_command import LC_Buttons
+from commands.list_buttons import LC_Buttons
 
 
 class ListCallback(BaseCallback):
