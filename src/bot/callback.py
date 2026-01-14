@@ -19,7 +19,7 @@ class CallbackHandler:
         self._create_callback = CreateCallback()
         self._form_callback = FormCallback(database)
         self._list_callback = ListCallback(database)
-        self._inventory_callback = InventoryCallback()
+        self._inventory_callback = InventoryCallback(database)
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
