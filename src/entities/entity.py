@@ -95,6 +95,9 @@ class Entity():
 
     @classmethod
     def JsonDecoder(cls, json_dct):
+        if json_dct == {}:
+            return None
+            
         try:
             args = []
             for bp in cls.base_prm:
@@ -109,5 +112,5 @@ class Entity():
 
             return res
         except Exception as ex:
-            print(ex)
+            print(f"Ошибка json: {ex}")
             return None
