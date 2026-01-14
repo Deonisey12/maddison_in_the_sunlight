@@ -4,5 +4,5 @@ from src.functions import Function
 
 
 class AddFunction(Function):
-    def execute(self, user_data: UserData, item: Item):
-        pass
+    def execute(self, user_data: UserData, item):
+        user_data.AddItemToInventory(item)

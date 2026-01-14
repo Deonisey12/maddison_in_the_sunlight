@@ -57,3 +57,4 @@ class Item(Entity):
     def Use(self, user_data):
         if (self._isUsable) and (self.Function is not None):
             self.Function.execute(user_data, *self.FunctionParams)
+            user_data.RmItemFromInventory(self.id)

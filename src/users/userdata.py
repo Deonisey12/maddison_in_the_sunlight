@@ -36,6 +36,34 @@ class UserData():
                 res_dict['inventory'].append(f"{item}:{self.inventory[item]}")
                 
             json.dump(res_dict, f)
+
+    def AddItemToInventory(self, id, num = 1):
+        if type(id) != str:
+            id = str(id)
+
+        if id in self.inventory.keys():
+            self.inventory[id] += num
+        else:
+            self.inventory[id] = num
+
+        self.Save()
+        
+
+    def RmItemFromInventory(self, id, num = 1):
+        if type(id) != str:
+            id = str(id)
+
+        if id in self.inventory.keys():
+            if self.inventory[id] >= num:
+                self.inventory[id] -= num
+            
+            if self.inventory[id] == 0:
+                self.inventory.pop(id)
+
+            self.Save()            
+            return 0
+
+        return -1
     
     @staticmethod
     def Load(username: str) -> 'UserData':
