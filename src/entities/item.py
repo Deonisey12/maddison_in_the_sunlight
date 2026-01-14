@@ -1,10 +1,7 @@
 import sys
 sys.path.append("src/entities")
-sys.path.append("src/functions")
 
 from entity import Entity
-
-
 
 class Item(Entity):
     additional_prm = [
@@ -42,6 +39,6 @@ class Item(Entity):
                 self.Function = None
                 self.FunctionParams = []
 
-    def Use(self, user_data):
+    def Use(self, user_state):
         if (self._isUsable) and (self.Function is not None):
-            self.Function(user_data, *self.FunctionParams)
+            self.Function(user_state, *self.FunctionParams)
