@@ -50,7 +50,6 @@ class UserData():
 
             self.Save()            
             return True
-
         return False
 
     def ForceRmItemFromInventory(self, id, num = 1):

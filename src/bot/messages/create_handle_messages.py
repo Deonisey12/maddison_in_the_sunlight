@@ -40,7 +40,8 @@ class CreateHandleMessages():
             await update.message.reply_text("Canceled")
             return
 
-        state[CreateState.TEXTS].append(text)
+        if text.lower() != "eof":
+            state[CreateState.TEXTS].append(text)
         if (len(state[CreateState.IDS]) == 0) or (text.lower() == "eof"):
             await self._finish_entity_creation(update, context, state, chat_id)
             CreateHandleMessages.cleanup_state(context)
