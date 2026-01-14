@@ -28,6 +28,8 @@ class UserState():
 
 class InventoryState():
     ACTIVE = "active"
+    USER_NAME = "user_name"
+    ITEM_ID = "item_id"
 
 
 class Commands():

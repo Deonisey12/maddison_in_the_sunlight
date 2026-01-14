@@ -43,7 +43,9 @@ class InventoryCommand(BaseCommand):
         )
 
         context.user_data[UserState.INVENTORY_STATE] = {
-        InventoryState.ACTIVE: True
+            InventoryState.ACTIVE: True,
+            InventoryState.USER_NAME: user_name,
+            InventoryState.ITEM_ID: None
         }
 
         await update.message.reply_text(layout.text, reply_markup=layout.reply_markup, parse_mode=layout.parce_mode)
