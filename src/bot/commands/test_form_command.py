@@ -16,12 +16,14 @@ class TestFormCommand(BaseCommand):
         self._base_form = BaseForm()
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
+        test_scene = self._database.GetEntityById("Scene", 0)
+        events = []
+        for e in test_scene.events:
+            events.append(self._database.GetEntityById("Event", e))
+
         layout = self._base_form.GenerateLayout(
-            self._database.GetEntityById("Scene", 0),
-            [
-                self._database.GetEntityById("Event", 0),
-                self._database.GetEntityById("Event", 1),
-            ],
+            test_scene,
+            events,
             action=Actions.TEST_FORM
         )
         
