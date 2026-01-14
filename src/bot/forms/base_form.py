@@ -53,6 +53,11 @@ class BaseForm():
         header = self._generate_header(main_scene)
         body = self._generate_body(main_scene)
 
+        if body.count('_') % 2 == 1:
+            body += '_'
+        if body.count('*') % 2 == 1:
+            body += '*'
+
         self._text = header + "\n" + body
 
         return Layout(self._text, self._reply_markup, self._parce_mode)
