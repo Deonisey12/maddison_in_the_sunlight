@@ -16,15 +16,22 @@ class Event(Entity):
         self._function = function
         self._functionParams = functionParams
 
+        self.ParameterRegistration()
+
     @property
     def function(self):
         return self._function
 
     def ParameterRegistration(self):
         try:
+            sys.path.append("src/functions")
             from functions import Functions
+
             self.Function = Functions.GetFunction(str(self._function))
             self.FunctionParams = []
+
+            if not self._functionParams or self._functionParams == []:
+                return
 
             for i in str(self._functionParams).split(", "):
                 self.FunctionParams.append(int(i))
@@ -32,6 +39,6 @@ class Event(Entity):
             self.Function = None
             self.FunctionParams = []
 
-    def Invoke(self, user_state):
-        if (self.Function is not None):
-            self.Function(user_state, *self.FunctionParams)
+    def Use(self, user_data):
+        if self.Function is not None:
+            self.Function.execute(user_data, *self.FunctionParams)
