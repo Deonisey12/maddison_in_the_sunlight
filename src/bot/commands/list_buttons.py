@@ -27,15 +27,15 @@ class LC_Buttons():
 
     @property
     def DELETE_BUTTON(self):
-        return self._generator.Create("Event", self.DELETE, "DELETE", "Delete entity")
+        return self._generator.Create("Event", self.DELETE, "УДАЛИТЬ", "Delete entity")
 
     @property
     def BACK_BUTTON(self):
-        return self._generator.Create("Event", self.BACK, "BACK", "Back to list")
+        return self._generator.Create("Event", self.BACK, "НАЗАД", "Back to list")
 
     @property
     def CLOSE_BUTTON(self):
-        return self._generator.Create("Event", self.CLOSE, "CLOSE", "Close list")
+        return self._generator.Create("Event", self.CLOSE, "ЗАКРЫТЬ", "Close list")
 
     def get_button_ids(self):
         return [
