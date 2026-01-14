@@ -22,20 +22,9 @@ class UserData():
         self.tasks = []
         self.settings = []
 
-    def Save(self):
-        os.makedirs(UserData.Path, exist_ok=True)
-        with open(os.path.join(UserData.Path, self.username + '.json'), 'w') as f:
-            res_dict = {}
-            
-            res_dict['username'] = self.username
-            res_dict['inGameData'] = self.inGameData.isoformat()
-            res_dict['character'] = self.character
+        self.actions_max = 0
+        self.actions = 0
 
-            res_dict['inventory'] = []
-            for item in self.inventory:
-                res_dict['inventory'].append(f"{item}:{self.inventory[item]}")
-                
-            json.dump(res_dict, f)
 
     def AddItemToInventory(self, id, num = 1):
         if type(id) != str:
@@ -47,7 +36,6 @@ class UserData():
             self.inventory[id] = num
 
         self.Save()
-        
 
     def RmItemFromInventory(self, id, num = 1):
         if type(id) != str:
@@ -76,6 +64,25 @@ class UserData():
                 self.inventory.pop(id)
 
             self.Save() 
+
+
+    def Save(self):
+        os.makedirs(UserData.Path, exist_ok=True)
+        with open(os.path.join(UserData.Path, self.username + '.json'), 'w') as f:
+            res_dict = {}
+            
+            res_dict['username'] = self.username
+            res_dict['inGameData'] = self.inGameData.isoformat()
+            res_dict['character'] = self.character
+
+            res_dict['actions_max'] = self.actions_max
+            res_dict['actions'] = self.actions
+
+            res_dict['inventory'] = []
+            for item in self.inventory:
+                res_dict['inventory'].append(f"{item}:{self.inventory[item]}")
+                
+            json.dump(res_dict, f)
     
     @staticmethod
     def Load(username: str) -> 'UserData':
@@ -94,6 +101,10 @@ class UserData():
                 ud.inGameData = datetime.datetime.fromisoformat(json_dct['inGameData'])
             else:
                 ud.inGameData = datetime.datetime(1981, 12, 28)
+        if 'actions_max' in json_dct and json_dct['actions_max']:
+            ud.actions_max = json_dct['actions_max']
+        if 'actions' in json_dct and json_dct['actions']:
+            ud.actions = json_dct['actions']
         if 'character' in json_dct and json_dct['character']:
             ud.character = json_dct['character']
         for inventory in json_dct.get('inventory', []):
