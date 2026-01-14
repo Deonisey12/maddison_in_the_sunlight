@@ -61,9 +61,21 @@ class UserData():
                 self.inventory.pop(id)
 
             self.Save()            
-            return 0
+            return True
 
-        return -1
+        return False
+
+    def ForceRmItemFromInventory(self, id, num = 1):
+        if type(id) != str:
+            id = str(id)
+
+        if id in self.inventory.keys():
+            self.inventory[id] -= num
+            
+            if self.inventory[id] <= 0:
+                self.inventory.pop(id)
+
+            self.Save() 
     
     @staticmethod
     def Load(username: str) -> 'UserData':

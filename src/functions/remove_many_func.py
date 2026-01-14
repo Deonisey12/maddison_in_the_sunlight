@@ -4,5 +4,5 @@ from src.functions import Function
 
 
 class RemoveManyFunction(Function):
-    def execute(self, user_data: UserData, item: Item, count: int):
-        pass
+    def execute(self, user_data: UserData, item_id, count: int):
+        user_data.ForceRmItemFromInventory(item_id, count)
