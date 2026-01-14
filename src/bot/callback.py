@@ -6,7 +6,11 @@ import telegram as tg
 import telegram.ext as tgx
 
 from cmd_dictionary import UserState, Actions
-from callbacks import CreateCallback, FormCallback, ListCallback
+from callbacks import (
+    CreateCallback,
+    FormCallback,
+    ListCallback,
+    InventoryCallback)
 
 
 class CallbackHandler:
@@ -15,6 +19,7 @@ class CallbackHandler:
         self._create_callback = CreateCallback()
         self._form_callback = FormCallback(database)
         self._list_callback = ListCallback(database)
+        self._inventory_callback = InventoryCallback()
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
@@ -36,6 +41,8 @@ class CallbackHandler:
             await self._form_callback.execute(update, context, data)
         elif action == Actions.LIST:
             await self._list_callback.execute(update, context, data)
+        elif action == Actions.INVENTORY:
+            await self._inventory_callback.execute(update, context, data)
         else:
             await query.edit_message_text(text=f"Неизвестное действие: {action}")
 

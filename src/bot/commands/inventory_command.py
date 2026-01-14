@@ -5,7 +5,7 @@ sys.path.append("src/bot")
 import telegram as tg
 import telegram.ext as tgx
 
-from cmd_dictionary import Actions, UserState
+from cmd_dictionary import Actions, InventoryState, UserState
 from .base_command import BaseCommand
 from entities.database import Database
 from users.userdata import UserData
@@ -21,8 +21,6 @@ class InventoryCommand(BaseCommand):
         self._list_buttons = LC_Buttons(self._gen)
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-
-        context.user_data[UserState.INVENTORY_STATE] = {}
         # InventoryHandleMessages.cleanup_state(context)
         
         user_name = update.message.from_user.username
@@ -38,11 +36,15 @@ class InventoryCommand(BaseCommand):
         entities.append(self._list_buttons.CLOSE_BUTTON)
 
         layout = self._inventory_form.GenerateLayout(
-            self._gen.Create("Scene", 0, "Inventory", "Inventory"),
+            self._gen.Create("Scene", 0, "Сумка", "Ты хлопаешь по карманам и заглядываешь в сумку\."),
             entities,
             quantities,
             action=Actions.INVENTORY
         )
+
+        context.user_data[UserState.INVENTORY_STATE] = {
+        InventoryState.ACTIVE: True
+        }
 
         await update.message.reply_text(layout.text, reply_markup=layout.reply_markup, parse_mode=layout.parce_mode)
         
