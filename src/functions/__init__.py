@@ -1,3 +1,4 @@
+from .function import Function
 from .functions import Functions
 from .add_func import AddFunction
 from .remove_func import RemoveFunction
@@ -10,6 +11,7 @@ from .pay_challenge_func import PayChallengeFunction
 from .relax_func import RelaxFunction
 
 __all__ = [
+    'Function',
     'Functions',
     'AddFunction',
     'RemoveFunction',

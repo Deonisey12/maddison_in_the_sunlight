@@ -13,7 +13,6 @@ from functions import (
     RelaxFunction,
 )
 
-
 class Functions:
     Functions = {
         "Add": AddFunction,
