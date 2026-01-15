@@ -22,6 +22,8 @@ class UserData():
         self.tasks = []
         self.settings = []
 
+        self._scene = -1
+
         self.actions_max = 0
         self.actions = 0
 
@@ -64,6 +66,14 @@ class UserData():
 
             self.Save() 
 
+    @property
+    def Scene(self):
+        return self._scene
+
+    @Scene.setter
+    def Scene(self, value: int):
+        self._scene = value
+        self.Save()
 
     def Save(self):
         os.makedirs(UserData.Path, exist_ok=True)
@@ -76,6 +86,8 @@ class UserData():
 
             res_dict['actions_max'] = self.actions_max
             res_dict['actions'] = self.actions
+
+            res_dict['scene'] = self._scene
 
             res_dict['inventory'] = []
             for item in self.inventory:
@@ -106,6 +118,8 @@ class UserData():
             ud.actions = json_dct['actions']
         if 'character' in json_dct and json_dct['character']:
             ud.character = json_dct['character']
+        if 'scene' in json_dct and json_dct['scene']:
+            ud._scene = json_dct['scene']
         for inventory in json_dct.get('inventory', []):
             ud.inventory[inventory.split(':')[0]] = int(inventory.split(':')[1])
         for skill in json_dct.get('skills', []):
