@@ -2,6 +2,7 @@ from .add_func import AddFunction
 from .remove_func import RemoveFunction
 from .change_func import ChangeFunction
 from .add_many_func import AddManyFunction
+from .add_many_many_func import AddManyManyFunction
 from .remove_many_func import RemoveManyFunction
 from .change_many_func import ChangeManyFunction
 from .challenge_func import ChallengeFunction
@@ -14,6 +15,7 @@ class Functions:
         "Remove": RemoveFunction,
         "Change": ChangeFunction,
         "AddMany": AddManyFunction,
+        "AddManyMany": AddManyManyFunction,
         "RemoveMany": RemoveManyFunction,
         "ChangeMany": ChangeManyFunction,
         "Challenge": ChallengeFunction,
