@@ -37,7 +37,7 @@ class CallbackHandler:
 
         if action == Actions.CREATE:
             await self._create_callback.execute(update, context, data)
-        elif action == Actions.TEST_FORM:
+        elif action == Actions.FORM:
             await self._form_callback.execute(update, context, data)
         elif action == Actions.LIST:
             await self._list_callback.execute(update, context, data)

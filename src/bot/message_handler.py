@@ -29,12 +29,11 @@ class LocalMessageHandler(BaseCommand):
             elif message_text == Commands.DESCRIPTIONS[Commands.LIST]:
                 await self._cmd.list(update, context)
                 return
-            elif message_text == Commands.DESCRIPTIONS[Commands.TEST]:
-                await self._cmd.echo(update, context)
-                return
             elif message_text == Commands.DESCRIPTIONS[Commands.INVENTORY]: 
                 await self._cmd.inventory(update, context)
                 return
+            elif message_text == Commands.DESCRIPTIONS[Commands.FORM]:
+                await self._cmd.test_form(update, context)
             return
 
         if state.get(CreateState.ACTIVE):

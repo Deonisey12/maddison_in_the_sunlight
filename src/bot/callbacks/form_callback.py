@@ -6,9 +6,14 @@ import telegram as tg
 import telegram.ext as tgx
 
 from forms.base_form import BaseForm
-from cmd_dictionary import MARKDOWN_V2
+from users.userdata import UserData
 from .base_callback import BaseCallback
-
+from cmd_dictionary import (
+    MARKDOWN_V2,
+    Actions,
+    FormState,
+    UserState,
+    )
 
 class FormCallback(BaseCallback):
     def __init__(self, database: Database):
@@ -16,13 +21,22 @@ class FormCallback(BaseCallback):
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE, data: str):
         query = update.callback_query
+        state = context.user_data.get(UserState.FORM_STATE, {})
+
+        if not state or not state.get(FormState.ACTIVE):
+            return
+
+        user_state = UserData.LoadByName(state[FormState.USER_NAME])
         
         entity_id = int(data)
         entity = self._database.GetEntityById("Event", entity_id)
         
         if entity:
             entity_info = f"*{str(entity.name)}*\n\n{str(entity.disc)}"
-            await query.edit_message_text(text=entity_info, parse_mode=MARKDOWN_V2)
         else:
-            await query.edit_message_text(text="Сущность не найдена")
+            entity_info = "Сущность не найдена"
 
+        entity.Use(user_state)
+
+        await query.edit_message_text(text=entity_info, parse_mode=MARKDOWN_V2)
+        

@@ -16,12 +16,12 @@ class ListState():
 
 class Actions():
     CREATE = "create"
-    TEST_FORM = "test_form"
     LIST = "list"
     INVENTORY = "inventory"
+    FORM = "form"
 
 class UserState():
-    FORM_ACTIONS = "form_actions"
+    FORM_STATE = "form_state"
     CREATE_STATE = "create_state"
     LIST_STATE = "list_state"
     INVENTORY_STATE = "inventory_state"
@@ -31,6 +31,9 @@ class InventoryState():
     USER_NAME = "user_name"
     ITEM_ID = "item_id"
 
+class FormState():
+    ACTIVE = "active"
+    USER_NAME = "user_name"
 
 class Commands():
     START = "start"
@@ -43,7 +46,7 @@ class Commands():
     DESCRIPTIONS = {
         CREATE: "Cоздать сущность",
         LIST: "Cписок сущностей",
-        TEST: "Echo",
+        FORM: "Form",
         INVENTORY: "Инвентарь",
     }
 
