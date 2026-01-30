@@ -4,6 +4,8 @@ from src.functions import Function
 
 
 class ChangeManyFunction(Function):
-    def execute(self, user_data: UserData, from_item_id, to_item_id, from_count: int, to_count: int):
+    def execute(self, user_data: UserData, from_item_id, to_item_id, from_count: int, to_count: int) -> bool:
         if user_data.RmItemFromInventory(from_item_id, from_count):
             user_data.AddItemToInventory(to_item_id, to_count)
+            return True
+        return False

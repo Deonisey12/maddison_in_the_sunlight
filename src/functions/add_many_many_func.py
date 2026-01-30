@@ -4,7 +4,7 @@ from src.functions import Function
 
 
 class AddManyManyFunction(Function):
-    def execute(self, user_data: UserData, num: int, items_and_counts = []):
+    def execute(self, user_data: UserData, num: int, items_and_counts = []) -> bool:
         i = 0
         
         try:
@@ -13,6 +13,7 @@ class AddManyManyFunction(Function):
                 count = items_and_counts[i*2 + 1]
                 user_data.AddItemToInventory(item_id, count)
                 i += 1
-        except:
-            pass
+            return True
+        except Exception as e:
+            raise e
 

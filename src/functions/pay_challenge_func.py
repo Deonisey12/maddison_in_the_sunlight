@@ -4,5 +4,5 @@ from src.functions import Function
 
 
 class PayChallengeFunction(Function):
-    def execute(self, user_data: UserData, attribute, ability, difficulty: int, cost_item: Item, count: int, success_event: Event, fault_event: Event):
-        pass
+    def execute(self, user_data: UserData, attribute, ability, difficulty: int, cost_item: Item, count: int, success_event: Event, fault_event: Event) -> bool:
+        raise NotImplementedError("PayChallengeFunction is not implemented")

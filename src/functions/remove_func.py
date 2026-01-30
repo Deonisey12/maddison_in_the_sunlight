@@ -4,5 +4,5 @@ from src.functions import Function
 
 
 class RemoveFunction(Function):
-    def execute(self, user_data: UserData, item_id):
-        user_data.RmItemFromInventory(item_id)
+    def execute(self, user_data: UserData, item_id) -> bool:
+        return user_data.RmItemFromInventory(item_id)

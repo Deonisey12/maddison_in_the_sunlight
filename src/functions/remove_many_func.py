@@ -4,5 +4,5 @@ from src.functions import Function
 
 
 class RemoveManyFunction(Function):
-    def execute(self, user_data: UserData, item_id, count: int):
-        user_data.ForceRmItemFromInventory(item_id, count)
+    def execute(self, user_data: UserData, item_id, count: int) -> bool:
+        return user_data.RmItemFromInventory(item_id, count)

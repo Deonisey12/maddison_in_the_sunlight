@@ -44,9 +44,10 @@ class UserData():
             id = str(id)
 
         if id in self.inventory.keys():
-            if self.inventory[id] >= num:
-                self.inventory[id] -= num
+            if self.inventory[id] < num:
+                return False
             
+            self.inventory[id] -= num
             if self.inventory[id] == 0:
                 self.inventory.pop(id)
 
