@@ -6,6 +6,7 @@ from .create_command import CreateCommand
 from .test_form_command import TestFormCommand
 from .list_command import ListCommand
 from .inventory_command import InventoryCommand
+from .create_scene_command import CreateSceneCommand
 
 __all__ = [
     'BaseCommand',
@@ -16,5 +17,6 @@ __all__ = [
     'TestFormCommand',
     'ListCommand',
     'InventoryCommand',
+    'CreateSceneCommand'
 ]
 

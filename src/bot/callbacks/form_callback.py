@@ -25,6 +25,10 @@ class FormCallback(BaseCallback):
 
         user_name = query.from_user.username
         if not state or not state.get(FormState.ACTIVE):
+            from commands import CreateSceneCommand
+            cs = CreateSceneCommand(self._database)
+            cs.ReadUserScene(user_name)
+            await cs.execute(update, context)
             return
 
         user_state = UserData.LoadByName(user_name)
