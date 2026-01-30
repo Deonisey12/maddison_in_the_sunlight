@@ -27,6 +27,7 @@ class ListCallback(BaseCallback):
         state = context.user_data.get(UserState.LIST_STATE, {})
 
         if not state or not state.get(ListState.ACTIVE):
+            await query.delete_message()
             return
 
         type_key = None

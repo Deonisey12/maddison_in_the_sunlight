@@ -34,6 +34,7 @@ class InventoryCallback(BaseCallback):
         state = context.user_data.get(UserState.INVENTORY_STATE, {})
 
         if not state or not state.get(InventoryState.ACTIVE):
+            await query.delete_message()
             return
 
         if int(data) == self._lc_buttons.CLOSE:
