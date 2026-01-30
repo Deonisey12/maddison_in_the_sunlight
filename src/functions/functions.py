@@ -8,6 +8,8 @@ from .change_many_func import ChangeManyFunction
 from .challenge_func import ChallengeFunction
 from .pay_challenge_func import PayChallengeFunction
 from .relax_func import RelaxFunction
+from .remove_many_force_func import RemoveManyForceFunction
+from .change_scene_func import ChangeSceneFunction
 
 class Functions:
     Functions = {
@@ -21,6 +23,8 @@ class Functions:
         "Challenge": ChallengeFunction,
         "PayChallenge": PayChallengeFunction,
         "Relax": RelaxFunction,
+        "RemoveManyForce": RemoveManyForceFunction,
+        "ChangeScene": ChangeSceneFunction,
     }
 
     def GetFunction(function_name: str):
