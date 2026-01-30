@@ -12,7 +12,7 @@ from commands import (
     HelpCommand,
     EchoCommand,
     CreateCommand,
-    TestFormCommand,
+    TestSceneCommand,
     ListCommand,
     InventoryCommand,
 )
@@ -27,7 +27,7 @@ class CmdHandler:
         self._help_command = HelpCommand()
         self._echo_command = EchoCommand()
         self._create_command = CreateCommand(database)
-        self._test_form_command = TestFormCommand(database)
+        self._test_scene_command = TestSceneCommand(database)
         self._callback_handler = CallbackHandler(database)
         self._list_command = ListCommand(database)
         self._inventory_command = InventoryCommand(database)
@@ -49,8 +49,8 @@ class CmdHandler:
         await self._create_command.execute(update, context)
 
     @delete_command_message
-    async def test_form(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
-        await self._test_form_command.execute(update, context)
+    async def test_scene(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):
+        await self._test_scene_command.execute(update, context)
 
     @delete_command_message
     async def list(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE):

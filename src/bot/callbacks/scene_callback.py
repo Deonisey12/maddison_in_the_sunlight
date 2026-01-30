@@ -11,20 +11,20 @@ from .base_callback import BaseCallback
 from cmd_dictionary import (
     MARKDOWN_V2,
     Actions,
-    FormState,
+    SceneState,
     UserState,
     )
 
-class FormCallback(BaseCallback):
+class SceneCallback(BaseCallback):
     def __init__(self, database: Database):
         self._database = database
 
     async def execute(self, update: tg.Update, context: tgx.ContextTypes.DEFAULT_TYPE, data: str):
         query = update.callback_query
-        state = context.user_data.get(UserState.FORM_STATE, {})
+        state = context.user_data.get(UserState.SCENE_STATE, {})
 
         user_name = query.from_user.username
-        if not state or not state.get(FormState.ACTIVE):
+        if not state or not state.get(SceneState.ACTIVE):
             from commands import CreateSceneCommand
             cs = CreateSceneCommand(self._database)
             cs.ReadUserScene(user_name)

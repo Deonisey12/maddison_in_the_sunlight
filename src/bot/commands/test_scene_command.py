@@ -6,13 +6,13 @@ import telegram as tg
 import telegram.ext as tgx
 
 from forms.base_form import BaseForm
-from cmd_dictionary import FormState, UserState, Actions
+from cmd_dictionary import SceneState, UserState, Actions
 from .base_command import BaseCommand
 
 from .create_scene_command import CreateSceneCommand
 
 
-class TestFormCommand(BaseCommand):
+class TestSceneCommand(BaseCommand):
     def __init__(self, database: Database):
         self._database = database
         self._base_form = BaseForm()

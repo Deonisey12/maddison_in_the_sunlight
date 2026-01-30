@@ -36,7 +36,7 @@ class TelegramBot():
         self._app.add_handler(tgx.CommandHandler(Commands.START, self.__cmd.start))
         self._app.add_handler(tgx.CommandHandler(Commands.TEST, self.__cmd.echo))
         self._app.add_handler(tgx.CommandHandler(Commands.CREATE, self.__cmd.create))
-        self._app.add_handler(tgx.CommandHandler(Commands.FORM, self.__cmd.test_form))
+        self._app.add_handler(tgx.CommandHandler(Commands.SCENE, self.__cmd.test_scene))
         self._app.add_handler(tgx.CommandHandler(Commands.LIST, self.__cmd.list))
 
         self._app.add_handler(tgx.MessageHandler(tgx.filters.TEXT & ~tgx.filters.COMMAND, self.__msg.execute))

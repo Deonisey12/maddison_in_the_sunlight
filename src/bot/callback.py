@@ -8,7 +8,7 @@ import telegram.ext as tgx
 from cmd_dictionary import UserState, Actions
 from callbacks import (
     CreateCallback,
-    FormCallback,
+    SceneCallback,
     ListCallback,
     InventoryCallback)
 
@@ -17,7 +17,7 @@ class CallbackHandler:
     def __init__(self, database: Database):
         self._database = database
         self._create_callback = CreateCallback()
-        self._form_callback = FormCallback(database)
+        self._scene_callback = SceneCallback(database)
         self._list_callback = ListCallback(database)
         self._inventory_callback = InventoryCallback(database)
 
@@ -37,8 +37,8 @@ class CallbackHandler:
 
         if action == Actions.CREATE:
             await self._create_callback.execute(update, context, data)
-        elif action == Actions.FORM:
-            await self._form_callback.execute(update, context, data)
+        elif action == Actions.SCENE:
+            await self._scene_callback.execute(update, context, data)
         elif action == Actions.LIST:
             await self._list_callback.execute(update, context, data)
         elif action == Actions.INVENTORY:

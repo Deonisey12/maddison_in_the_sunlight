@@ -7,7 +7,7 @@ import telegram.ext as tgx
 
 from users.userdata import UserData
 from forms.base_form import BaseForm
-from cmd_dictionary import FormState, UserState, Actions
+from cmd_dictionary import SceneState, UserState, Actions
 from .base_command import BaseCommand
 
 
@@ -42,11 +42,11 @@ class CreateSceneCommand(BaseCommand):
         layout = self._base_form.GenerateLayout(
             test_scene,
             events,
-            action=Actions.FORM
+            action=Actions.SCENE
         )
 
-        context.user_data[UserState.FORM_STATE] = {
-            FormState.ACTIVE: True
+        context.user_data[UserState.SCENE_STATE] = {
+            SceneState.ACTIVE: True
         }
 
         try:
