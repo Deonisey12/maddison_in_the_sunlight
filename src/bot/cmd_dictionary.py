@@ -28,12 +28,10 @@ class UserState():
 
 class InventoryState():
     ACTIVE = "active"
-    USER_NAME = "user_name"
     ITEM_ID = "item_id"
 
 class FormState():
     ACTIVE = "active"
-    USER_NAME = "user_name"
 
 class Commands():
     START = "start"

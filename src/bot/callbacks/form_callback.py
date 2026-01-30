@@ -23,10 +23,11 @@ class FormCallback(BaseCallback):
         query = update.callback_query
         state = context.user_data.get(UserState.FORM_STATE, {})
 
+        user_name = query.from_user.username
         if not state or not state.get(FormState.ACTIVE):
             return
 
-        user_state = UserData.LoadByName(state[FormState.USER_NAME])
+        user_state = UserData.LoadByName(user_name)
         
         entity_id = int(data)
         entity = self._database.GetEntityById("Event", entity_id)

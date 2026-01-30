@@ -47,8 +47,8 @@ class InventoryCallback(BaseCallback):
             return
 
         if state[InventoryState.ITEM_ID] != None:
-
-            user_state = UserData.LoadByName(state[InventoryState.USER_NAME])
+            username = query.from_user.username
+            user_state = UserData.LoadByName(username)
 
             if int(data) == self._USE:
                 item: Item = self._database.GetEntityById('Item', state[InventoryState.ITEM_ID])

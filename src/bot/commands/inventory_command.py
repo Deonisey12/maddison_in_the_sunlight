@@ -44,7 +44,6 @@ class InventoryCommand(BaseCommand):
 
         context.user_data[UserState.INVENTORY_STATE] = {
             InventoryState.ACTIVE: True,
-            InventoryState.USER_NAME: user_name,
             InventoryState.ITEM_ID: None
         }
 
